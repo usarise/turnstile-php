@@ -183,46 +183,6 @@ final class TurnstileTest extends TestCase {
         );
     }
 
-    public function testHostnameValidation(): void {
-        $response = (new Turnstile(
-            client: $this->getMockHttpClientReturn(
-                '{"success": true, "hostname": "localhost.test"}',
-            ),
-            secret: 'secret',
-            hostname: 'localhost.test',
-        ))
-        ->verify('response')
-        ;
-
-        $this->assertTrue($response->success);
-        $this->assertEquals(
-            'localhost.test',
-            $response->hostname,
-        );
-    }
-
-    public function testBadHostnameValidation(): void {
-        $response = (new Turnstile(
-            client: $this->getMockHttpClientReturn(
-                '{"success": true, "hostname": "localhost.test"}',
-            ),
-            secret: 'secret',
-            hostname: 'localhost',
-        ))
-        ->verify('response')
-        ;
-
-        $this->assertFalse($response->success);
-        $this->assertEquals(
-            ['hostname-mismatch'],
-            $response->errorCodes,
-        );
-        $this->assertEquals(
-            'localhost.test',
-            $response->hostname,
-        );
-    }
-
     public function testTimeoutSecondsValidation(): void {
         $challengeTs = $this->getChallengeTs('now');
 
@@ -264,6 +224,46 @@ final class TurnstileTest extends TestCase {
         $this->assertEquals(
             $challengeTs,
             $response->challengeTs,
+        );
+    }
+
+    public function testHostnameValidation(): void {
+        $response = (new Turnstile(
+            client: $this->getMockHttpClientReturn(
+                '{"success": true, "hostname": "localhost.test"}',
+            ),
+            secret: 'secret',
+            hostname: 'localhost.test',
+        ))
+        ->verify('response')
+        ;
+
+        $this->assertTrue($response->success);
+        $this->assertEquals(
+            'localhost.test',
+            $response->hostname,
+        );
+    }
+
+    public function testBadHostnameValidation(): void {
+        $response = (new Turnstile(
+            client: $this->getMockHttpClientReturn(
+                '{"success": true, "hostname": "localhost.test"}',
+            ),
+            secret: 'secret',
+            hostname: 'localhost',
+        ))
+        ->verify('response')
+        ;
+
+        $this->assertFalse($response->success);
+        $this->assertEquals(
+            ['hostname-mismatch'],
+            $response->errorCodes,
+        );
+        $this->assertEquals(
+            'localhost.test',
+            $response->hostname,
         );
     }
 
