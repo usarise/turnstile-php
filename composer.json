@@ -1,0 +1,59 @@
+{
+    "name": "usarise/turnstile",
+    "description": "PHP library for Turnstile, is Cloudflare’s smart CAPTCHA alternative. It can be embedded into any website without sending traffic through Cloudflare and works without showing visitors a CAPTCHA.",
+    "license": "Unlicense",
+    "type": "library",
+    "keywords": [
+        "turnstile",
+        "cloudflare",
+        "captcha",
+        "spam",
+        "anti spam",
+        "anti bot",
+        "abuse"
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-json": "*",
+        "psr/http-client": "^1.0",
+        "psr/http-client-implementation": "^1.0",
+        "psr/http-factory": "^1.0"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.31.0",
+        "friendsofphp/php-cs-fixer": "^3.17.0",
+        "nyholm/psr7": "^1.8",
+        "phpstan/phpstan": "^1.10.16",
+        "phpunit/phpunit": "^10.2.1",
+        "rector/rector": "^0.17.0",
+        "symfony/http-client": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Turnstile\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TurnstileTests\\": "tests"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "check": [
+            "vendor/bin/php-cs-fixer fix --dry-run --diff",
+            "vendor/bin/phpstan analyse",
+            "vendor/bin/rector process --dry-run"
+        ],
+        "cleanup": "rm .php-cs-fixer.dist.cache",
+        "csfixer": "vendor/bin/php-cs-fixer fix --dry-run --diff",
+        "phpstan": "vendor/bin/phpstan analyse",
+        "rector": "vendor/bin/rector process --dry-run",
+        "test": "vendor/bin/phpunit tests"
+    }
+}
