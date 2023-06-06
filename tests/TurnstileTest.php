@@ -19,7 +19,7 @@ final class TurnstileTest extends TestCase {
         );
     }
 
-    public function testBadSecret(): void {
+    public function testBadSecretKey(): void {
         $this->expectException(TurnstileException::class);
 
         new Turnstile(
@@ -51,9 +51,9 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 '{"success": true}',
             ),
-            secret: 'secret',
+            secretKey: 'secret',
         ))
-        ->verify('response', '127.0.0.1')
+        ->verify('token', '127.0.0.1')
         ;
 
         $this->assertInstanceOf(
@@ -84,11 +84,11 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 '{"success": true}',
             ),
-            secret: 'secret',
+            secretKey: 'secret',
         );
 
         $args = [
-            'response',
+            'token',
             '127.0.0.1',
             '123e4567-e89b-12d3-a456-426655440000',
         ];
@@ -151,9 +151,9 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 '{"success": false, "error-codes": ["test-error"]}',
             ),
-            secret: 'secret',
+            secretKey: 'secret',
         ))
-        ->verify('response')
+        ->verify('token')
         ;
 
         $this->assertInstanceOf(
@@ -190,10 +190,10 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 '{"success": true, "challenge_ts": "' . $challengeTs . '"}',
             ),
-            secret: 'secret',
+            secretKey: 'secret',
             timeoutSeconds: 15,
         ))
-        ->verify('response')
+        ->verify('token')
         ;
 
         $this->assertTrue($response->success);
@@ -210,10 +210,10 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 '{"success": true, "challenge_ts": "' . $challengeTs . '"}',
             ),
-            secret: 'secret',
+            secretKey: 'secret',
             timeoutSeconds: 15,
         ))
-        ->verify('response')
+        ->verify('token')
         ;
 
         $this->assertFalse($response->success);
@@ -232,10 +232,10 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 '{"success": true, "hostname": "localhost.test"}',
             ),
-            secret: 'secret',
+            secretKey: 'secret',
             hostname: 'localhost.test',
         ))
-        ->verify('response')
+        ->verify('token')
         ;
 
         $this->assertTrue($response->success);
@@ -250,10 +250,10 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 '{"success": true, "hostname": "localhost.test"}',
             ),
-            secret: 'secret',
+            secretKey: 'secret',
             hostname: 'localhost',
         ))
-        ->verify('response')
+        ->verify('token')
         ;
 
         $this->assertFalse($response->success);
@@ -272,10 +272,10 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 '{"success": true, "action": "login"}',
             ),
-            secret: 'secret',
+            secretKey: 'secret',
             action: 'login',
         ))
-        ->verify('response')
+        ->verify('token')
         ;
 
         $this->assertTrue($response->success);
@@ -290,10 +290,10 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 '{"success": true, "action": "login"}',
             ),
-            secret: 'secret',
+            secretKey: 'secret',
             action: 'sign_in',
         ))
-        ->verify('response')
+        ->verify('token')
         ;
 
         $this->assertFalse($response->success);
@@ -312,10 +312,10 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 '{"success": true, "cdata": "sessionid-123456789"}',
             ),
-            secret: 'secret',
-            cdata: 'sessionid-123456789',
+            secretKey: 'secret',
+            cData: 'sessionid-123456789',
         ))
-        ->verify('response')
+        ->verify('token')
         ;
 
         $this->assertTrue($response->success);
@@ -330,10 +330,10 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 '{"success": true, "cdata": "sessionid-123456789"}',
             ),
-            secret: 'secret',
-            cdata: 'sessiondata',
+            secretKey: 'secret',
+            cData: 'sessiondata',
         ))
-        ->verify('response')
+        ->verify('token')
         ;
 
         $this->assertFalse($response->success);
@@ -355,13 +355,13 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 $httpResponse,
             ),
-            secret: 'secret',
+            secretKey: 'secret',
             timeoutSeconds: 15,
             hostname: 'localhost',
             action: 'sign_in',
-            cdata: 'sessiondata',
+            cData: 'sessiondata',
         ))
-        ->verify('response')
+        ->verify('token')
         ;
 
         $this->assertFalse($response->success);
@@ -421,10 +421,10 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 $httpResponse,
             ),
-            secret: 'secret',
+            secretKey: 'secret',
             hostname: 'localhost',
         ))
-        ->verify('response')
+        ->verify('token')
         ;
 
         $this->assertFalse($response->success);
@@ -477,7 +477,7 @@ final class TurnstileTest extends TestCase {
             client: $this->getMockHttpClientReturn(
                 '{"success": true}',
             ),
-            secret: 'secret',
+            secretKey: 'secret',
         ))
         ->verify('')
         ;

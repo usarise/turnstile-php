@@ -10,19 +10,19 @@ use Turnstile\Error\Code as ErrorCode;
 final class Turnstile implements TurnstileInterface {
     public function __construct(
         private readonly Client $client,
-        private readonly string $secret,
+        private readonly string $secretKey,
         private readonly ?int $timeoutSeconds = null,
         private readonly ?string $hostname = null,
         private readonly ?string $action = null,
-        private readonly ?string $cdata = null,
+        private readonly ?string $cData = null,
     ) {
-        if ($secret === '') {
-            throw new TurnstileException('The secret cannot be empty.');
+        if ($secretKey === '') {
+            throw new TurnstileException('The secret key cannot be empty.');
         }
     }
 
-    public function verify(string $response, ?string $remoteip = null, ?string $idempotencyKey = null): Response {
-        if ($response === '') {
+    public function verify(string $token, ?string $remoteIp = null, ?string $idempotencyKey = null): Response {
+        if ($token === '') {
             return new Response(
                 false,
                 [ErrorCode::MISSING_INPUT_RESPONSE],
@@ -33,9 +33,9 @@ final class Turnstile implements TurnstileInterface {
             Response::decode(
                 $this->client->sendRequest(
                     new RequestParameters(
-                        $this->secret,
-                        $response,
-                        $remoteip,
+                        $this->secretKey,
+                        $token,
+                        $remoteIp,
                         $idempotencyKey,
                     ),
                 ),
@@ -62,7 +62,7 @@ final class Turnstile implements TurnstileInterface {
             $errorCodes[] = ErrorCode::ACTION_MISMATCH;
         }
 
-        if ($this->cdata !== null && $this->cdata !== $response->cdata) {
+        if ($this->cData !== null && $this->cData !== $response->cdata) {
             $errorCodes[] = ErrorCode::CDATA_MISMATCH;
         }
 

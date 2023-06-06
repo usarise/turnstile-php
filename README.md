@@ -22,13 +22,13 @@ use Turnstile\Error\Code;
 use Turnstile\Turnstile;
 
 // API keys at https://dash.cloudflare.com/?to=/:account/turnstile
-$secret = '';
+$secretKey = '';
 
 $turnstile = new Turnstile(
     client: new Client(
         new Psr18Client(),
     ),
-    secret: $secret,
+    secretKey: $secretKey,
 );
 
 $response = $turnstile->verify(
@@ -59,17 +59,17 @@ use Turnstile\Error\Code;
 use Turnstile\Turnstile;
 
 // API keys at https://dash.cloudflare.com/?to=/:account/turnstile
-$secret = '';
+$secretKey = '';
 
 $turnstile = new Turnstile(
     client: new Client(
         new Psr18Client(),
     ),
-    secret: $secret,
+    secretKey: $secretKey,
     timeoutSeconds: 300,
     hostname: $_SERVER['SERVER_NAME'],
     action: 'login',
-    cdata: 'sessionid-123456789',
+    cData: 'sessionid-123456789',
 );
 
 $response = $turnstile->verify(
@@ -101,14 +101,14 @@ use Turnstile\Error\Code;
 use Turnstile\Turnstile;
 
 // API keys at https://dash.cloudflare.com/?to=/:account/turnstile
-$secret = '';
+$secretKey = '';
 
 $turnstile = new Turnstile(
     client: new Client(
         new GuzzleHttpClient(),
         new HttpFactory(),
     ),
-    secret: $secret,
+    secretKey: $secretKey,
 );
 
 $response = $turnstile->verify(
@@ -140,14 +140,14 @@ use Turnstile\Error\Code;
 use Turnstile\Turnstile;
 
 // API keys at https://dash.cloudflare.com/?to=/:account/turnstile
-$secret = '';
+$secretKey = '';
 
 $turnstile = new Turnstile(
     client: new Client(
         new GuzzleHttpClient(),
         new Psr17Factory(),
     ),
-    secret: $secret,
+    secretKey: $secretKey,
 );
 
 $response = $turnstile->verify(
@@ -179,14 +179,14 @@ use Turnstile\Error\Code;
 use Turnstile\Turnstile;
 
 // API keys at https://dash.cloudflare.com/?to=/:account/turnstile
-$secret = '';
+$secretKey = '';
 
 $turnstile = new Turnstile(
     client: new Client(
         new Psr18Client(),
         new Psr17Factory(),
     ),
-    secret: $secret,
+    secretKey: $secretKey,
 );
 
 $response = $turnstile->verify(
