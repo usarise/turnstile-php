@@ -13,6 +13,11 @@ final class Code {
     /**
      * @var string
      */
+    public const INVALID_INPUT_RESPONSE = 'invalid-input-response';
+
+    /**
+     * @var string
+     */
     public const CHALLENGE_TIMEOUT = 'challenge-timeout';
 
     /**

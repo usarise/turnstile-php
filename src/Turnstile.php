@@ -29,6 +29,13 @@ final class Turnstile implements TurnstileInterface {
             );
         }
 
+        if (\strlen($token) > self::MAX_LENGTH_TOKEN) {
+            return new Response(
+                false,
+                [ErrorCode::INVALID_INPUT_RESPONSE],
+            );
+        }
+
         return $this->extendVerify(
             Response::decode(
                 $this->client->sendRequest(
