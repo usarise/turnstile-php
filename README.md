@@ -66,7 +66,7 @@ $turnstile = new Turnstile(
         new Psr18Client(),
     ),
     secret: $secret,
-    timeoutSeconds: 30,
+    timeoutSeconds: 300,
     hostname: $_SERVER['SERVER_NAME'],
     action: 'login',
     cdata: 'sessionid-123456789',
