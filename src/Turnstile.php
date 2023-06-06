@@ -21,7 +21,7 @@ final class Turnstile implements TurnstileInterface {
         }
     }
 
-    public function verify(string $response, ?string $remoteip = null): Response {
+    public function verify(string $response, ?string $remoteip = null, ?string $idempotencyKey = null): Response {
         if ($response === '') {
             return new Response(
                 false,
@@ -36,6 +36,7 @@ final class Turnstile implements TurnstileInterface {
                         $this->secret,
                         $response,
                         $remoteip,
+                        $idempotencyKey,
                     ),
                 ),
             ),

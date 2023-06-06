@@ -28,6 +28,7 @@ final class RequestParametersTest extends TestCase {
             'secret',
             'response',
             'remoteip',
+            'idempotencyKey',
         );
 
         $this->assertEquals(
@@ -35,12 +36,13 @@ final class RequestParametersTest extends TestCase {
                 'secret' => 'secret',
                 'response' => 'response',
                 'remoteip' => 'remoteip',
+                'idempotency_key' => 'idempotencyKey',
             ],
             $requestParams->toArray(),
         );
     }
 
-    public function testToString(): void {
+    public function testToStringShort(): void {
         $requestParams = new RequestParameters(
             'secret',
             'response',
@@ -50,15 +52,18 @@ final class RequestParametersTest extends TestCase {
             'secret=secret&response=response',
             (string) $requestParams,
         );
+    }
 
+    public function testToStringFull(): void {
         $requestParams = new RequestParameters(
             'secret',
             'response',
             'remoteip',
+            'idempotencyKey',
         );
 
         $this->assertEquals(
-            'secret=secret&response=response&remoteip=remoteip',
+            'secret=secret&response=response&remoteip=remoteip&idempotency_key=idempotencyKey',
             (string) $requestParams,
         );
     }

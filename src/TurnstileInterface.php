@@ -21,5 +21,5 @@ interface TurnstileInterface {
         ?string $cdata,
     );
 
-    public function verify(string $response, ?string $remoteip): ResponseBase;
+    public function verify(string $response, ?string $remoteip, ?string $idempotencyKey): ResponseBase;
 }

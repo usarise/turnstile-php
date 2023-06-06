@@ -79,6 +79,73 @@ final class TurnstileTest extends TestCase {
         );
     }
 
+    public function testVerifyIdempotency(): void {
+        $turnstile = new Turnstile(
+            client: $this->getMockHttpClientReturn(
+                '{"success": true}',
+            ),
+            secret: 'secret',
+        );
+
+        $args = [
+            'response',
+            '127.0.0.1',
+            '123e4567-e89b-12d3-a456-426655440000',
+        ];
+
+        $response = $turnstile->verify(
+            ...$args,
+        );
+
+        $this->assertInstanceOf(
+            Response::class,
+            $response,
+        );
+
+        $this->assertTrue($response->success);
+        $this->assertEquals(
+            [
+                'success' => true,
+                'errorCodes' => [],
+                'challengeTs' => null,
+                'hostname' => null,
+                'action' => null,
+                'cdata' => null,
+            ],
+            $response->toArray(),
+        );
+        $this->assertEquals(
+            '{"success": true}',
+            (string) $response,
+        );
+
+        $response = $turnstile->verify(
+            ...$args,
+        );
+
+        $this->assertInstanceOf(
+            Response::class,
+            $response,
+        );
+
+        $this->assertTrue($response->success);
+        $this->assertEquals(
+            [
+                'success' => true,
+                'errorCodes' => [],
+                'challengeTs' => null,
+                'hostname' => null,
+                'action' => null,
+                'cdata' => null,
+            ],
+            $response->toArray(),
+        );
+        $this->assertEquals(
+            '{"success": true}',
+            (string) $response,
+        );
+    }
+
     public function testError(): void {
         $response = (new Turnstile(
             client: $this->getMockHttpClientReturn(
