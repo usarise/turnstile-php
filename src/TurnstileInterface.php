@@ -24,11 +24,12 @@ interface TurnstileInterface {
     public function __construct(
         Client $client,
         string $secretKey,
+        ?string $idempotencyKey,
         ?int $timeoutSeconds,
         ?string $hostname,
         ?string $action,
         ?string $cData,
     );
 
-    public function verify(string $token, ?string $remoteIp, ?string $idempotencyKey): ResponseBase;
+    public function verify(string $token, ?string $remoteIp): ResponseBase;
 }

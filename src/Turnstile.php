@@ -11,6 +11,7 @@ final class Turnstile implements TurnstileInterface {
     public function __construct(
         private readonly Client $client,
         private readonly string $secretKey,
+        private readonly ?string $idempotencyKey = null,
         private readonly ?int $timeoutSeconds = null,
         private readonly ?string $hostname = null,
         private readonly ?string $action = null,
@@ -21,7 +22,7 @@ final class Turnstile implements TurnstileInterface {
         }
     }
 
-    public function verify(string $token, ?string $remoteIp = null, ?string $idempotencyKey = null): Response {
+    public function verify(string $token, ?string $remoteIp = null): Response {
         if ($token === '') {
             return new Response(
                 false,
@@ -43,7 +44,7 @@ final class Turnstile implements TurnstileInterface {
                         $this->secretKey,
                         $token,
                         $remoteIp,
-                        $idempotencyKey,
+                        $this->idempotencyKey,
                     ),
                 ),
             ),

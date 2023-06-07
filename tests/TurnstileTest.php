@@ -91,16 +91,12 @@ final class TurnstileTest extends TestCase {
                 '{"success": true}',
             ),
             secretKey: 'secret',
+            idempotencyKey: '123e4567-e89b-12d3-a456-426655440000',
         );
 
-        $args = [
+        $response = $turnstile->verify(
             'token',
             '127.0.0.1',
-            '123e4567-e89b-12d3-a456-426655440000',
-        ];
-
-        $response = $turnstile->verify(
-            ...$args,
         );
 
         $this->assertInstanceOf(
@@ -132,7 +128,8 @@ final class TurnstileTest extends TestCase {
         );
 
         $response = $turnstile->verify(
-            ...$args,
+            'token',
+            '127.0.0.1',
         );
 
         $this->assertInstanceOf(
