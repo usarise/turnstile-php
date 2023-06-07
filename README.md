@@ -44,6 +44,18 @@ if ($response->success) {
     var_dump(Code::toDescription($errors));
 }
 ```
+##### Response to string
+```php
+var_dump((string) $response);
+```
+##### Response to array
+```php
+var_dump($response->toArray());
+```
+##### Response object to array
+```php
+var_dump($response->toArray(strict: true));
+```
 
 ### Usage full
 ```php
@@ -164,7 +176,7 @@ if ($response->success) {
 }
 ```
 
-### Usage Symfony HttpClient and Nyholm/psr7
+### Usage Symfony/HttpClient and Nyholm/psr7
 ```php
 <?php
 
