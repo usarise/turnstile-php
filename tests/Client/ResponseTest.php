@@ -31,7 +31,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $responseDecode->toArray(),
+            $responseDecode->toArray(true),
         );
         $this->assertEquals(
             '{"success": true}',
@@ -76,7 +76,7 @@ final class ResponseTest extends TestCase {
                 'action' => 'login',
                 'cdata' => 'sessionid-123456789',
             ],
-            $responseDecode->toArray(),
+            $responseDecode->toArray(true),
         );
         $this->assertEquals(
             $httpResponse,
@@ -84,7 +84,7 @@ final class ResponseTest extends TestCase {
         );
     }
 
-    public function testToArray(): void {
+    public function testToArraySuccessTrue(): void {
         $response = new Response(true, []);
 
         $this->assertEquals(
@@ -96,9 +96,16 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $response->toArray(),
+            $response->toArray(true),
         );
 
+        $this->assertEquals(
+            [],
+            $response->toArray(),
+        );
+    }
+
+    public function testToArraySuccessFalse(): void {
         $response = new Response(
             success: false,
             errorCodes: ['test-error'],
@@ -113,7 +120,42 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
+            $response->toArray(true),
+        );
+
+        $this->assertEquals(
+            [],
             $response->toArray(),
+        );
+    }
+
+    public function testToArrayJsonDecode(): void {
+        $response = new Response(
+            success: true,
+            errorCodes: [],
+            jsonDecode: ['test' => 'jsonDecode'],
+        );
+
+        $this->assertEquals(
+            [
+                'success' => true,
+                'errorCodes' => [],
+                'challengeTs' => null,
+                'hostname' => null,
+                'action' => null,
+                'cdata' => null,
+            ],
+            $response->toArray(true),
+        );
+
+        $this->assertEquals(
+            ['test' => 'jsonDecode'],
+            $response->toArray(),
+        );
+
+        $this->assertEquals(
+            ['test' => 'jsonDecode'],
+            $response->toArray(false),
         );
     }
 
@@ -155,7 +197,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $responseDecode->toArray(),
+            $responseDecode->toArray(true),
         );
         $this->assertEquals(
             'null',
@@ -180,7 +222,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $responseDecode->toArray(),
+            $responseDecode->toArray(true),
         );
         $this->assertEquals(
             'true',
@@ -205,7 +247,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $responseDecode->toArray(),
+            $responseDecode->toArray(true),
         );
         $this->assertEquals(
             '{"test": true}',
@@ -230,7 +272,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $responseDecode->toArray(),
+            $responseDecode->toArray(true),
         );
         $this->assertEquals(
             'invalid',

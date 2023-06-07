@@ -9,6 +9,7 @@ use Turnstile\Error\Code as ErrorCode;
 final class Response extends ResponseBase {
     /**
      * @param array<int, string> $errorCodes
+     * @param array<string, mixed> $jsonDecode
      */
     public function __construct(
         public readonly bool $success,
@@ -17,19 +18,20 @@ final class Response extends ResponseBase {
         public readonly ?string $hostname = null,
         public readonly ?string $action = null,
         public readonly ?string $cdata = null,
+        protected readonly array $jsonDecode = [],
         protected readonly string $httpBody = '',
     ) {
     }
 
     public static function decode(string $httpResponse): static {
         try {
-            $dataResponse = json_decode(
+            $jsonDecode = json_decode(
                 json: $httpResponse,
                 associative: true,
                 flags: JSON_PRESERVE_ZERO_FRACTION | JSON_THROW_ON_ERROR,
             );
 
-            if (!$dataResponse) {
+            if (!$jsonDecode) {
                 return new self(
                     success: false,
                     errorCodes: [ErrorCode::UNKNOWN_ERROR],
@@ -37,7 +39,7 @@ final class Response extends ResponseBase {
                 );
             }
 
-            if (!\is_array($dataResponse)) {
+            if (!\is_array($jsonDecode)) {
                 return new self(
                     success: false,
                     errorCodes: [ErrorCode::UNKNOWN_ERROR],
@@ -45,18 +47,18 @@ final class Response extends ResponseBase {
                 );
             }
 
-            $success = $dataResponse['success'] ?? false;
-            $errorCodes = $dataResponse['error-codes'] ?? [];
+            $success = $jsonDecode['success'] ?? false;
+            $errorCodes = $jsonDecode['error-codes'] ?? [];
 
             if ($success === false && $errorCodes === []) {
                 $errorCodes[] = ErrorCode::UNKNOWN_ERROR;
             }
 
-            $challengeTs = $dataResponse['challenge_ts'] ?? null;
-            $hostname = $dataResponse['hostname'] ?? null;
+            $challengeTs = $jsonDecode['challenge_ts'] ?? null;
+            $hostname = $jsonDecode['hostname'] ?? null;
 
-            $action = $dataResponse['action'] ?? null;
-            $cdata = $dataResponse['cdata'] ?? null;
+            $action = $jsonDecode['action'] ?? null;
+            $cdata = $jsonDecode['cdata'] ?? null;
 
             return new self(
                 $success,
@@ -65,6 +67,7 @@ final class Response extends ResponseBase {
                 $hostname,
                 $action,
                 $cdata,
+                $jsonDecode,
                 $httpResponse,
             );
         } catch (\JsonException) {

@@ -55,7 +55,15 @@ final class TurnstileIntegrationTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $response->toArray(),
+            $response->toArray(true),
+        );
+        $this->assertEquals(
+            [
+                'success' => false,
+                'error-codes' => ['invalid-input-response'],
+                'messages' => [],
+            ],
+            $response->toArray(false),
         );
         $this->assertEquals(
             '{"success":false,"error-codes":["invalid-input-response"],"messages":[]}',

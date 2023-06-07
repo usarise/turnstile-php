@@ -81,10 +81,13 @@ final class Turnstile implements TurnstileInterface {
                     ...$errorCodes,
                 ],
                 ...\array_slice(
-                    array: $response->toArray(),
+                    array: $response->toArray(true),
                     offset: 2,
                 ),
-                ...[(string) $response],
+                ...[
+                    $response->toArray(),
+                    (string) $response,
+                ],
             );
         }
 

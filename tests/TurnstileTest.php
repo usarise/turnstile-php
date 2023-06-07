@@ -71,6 +71,12 @@ final class TurnstileTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
+            $response->toArray(true),
+        );
+        $this->assertEquals(
+            [
+                'success' => true,
+            ],
             $response->toArray(),
         );
         $this->assertEquals(
@@ -112,6 +118,12 @@ final class TurnstileTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
+            $response->toArray(true),
+        );
+        $this->assertEquals(
+            [
+                'success' => true,
+            ],
             $response->toArray(),
         );
         $this->assertEquals(
@@ -137,6 +149,12 @@ final class TurnstileTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+            ],
+            $response->toArray(true),
+        );
+        $this->assertEquals(
+            [
+                'success' => true,
             ],
             $response->toArray(),
         );
@@ -174,6 +192,13 @@ final class TurnstileTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+            ],
+            $response->toArray(true),
+        );
+        $this->assertEquals(
+            [
+                'success' => false,
+                'error-codes' => ['test-error'],
             ],
             $response->toArray(),
         );
@@ -405,6 +430,16 @@ final class TurnstileTest extends TestCase {
                 'action' => 'login',
                 'cdata' => 'sessionid-123456789',
             ],
+            $response->toArray(true),
+        );
+        $this->assertEquals(
+            [
+                'success' => true,
+                'challenge_ts' => $challengeTs,
+                'hostname' => 'localhost.test',
+                'action' => 'login',
+                'cdata' => 'sessionid-123456789',
+            ],
             $response->toArray(),
         );
         $this->assertEquals(
@@ -415,7 +450,7 @@ final class TurnstileTest extends TestCase {
 
     public function testBadClientValidationAndErrors(): void {
         $challengeTs = $this->getChallengeTs('now');
-        $httpResponse = '{"success": false, "error-codes": ["test-error"], "hostname": "localhost.test", "challenge_ts": "' . $challengeTs . '", "action": "login", "cdata": "sessionid-123456789"}';
+        $httpResponse = '{"success": false, "error-codes": ["test-error"], "challenge_ts": "' . $challengeTs . '", "hostname": "localhost.test", "action": "login", "cdata": "sessionid-123456789"}';
 
         $response = (new Turnstile(
             client: $this->getMockHttpClientReturn(
@@ -460,6 +495,17 @@ final class TurnstileTest extends TestCase {
                     'hostname-mismatch',
                 ],
                 'challengeTs' => $challengeTs,
+                'hostname' => 'localhost.test',
+                'action' => 'login',
+                'cdata' => 'sessionid-123456789',
+            ],
+            $response->toArray(true),
+        );
+        $this->assertEquals(
+            [
+                'success' => false,
+                'error-codes' => ['test-error'],
+                'challenge_ts' => $challengeTs,
                 'hostname' => 'localhost.test',
                 'action' => 'login',
                 'cdata' => 'sessionid-123456789',
