@@ -65,6 +65,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpClient\Psr18Client;
 use Turnstile\Client\Client;
 use Turnstile\Error\Code;
@@ -72,12 +73,15 @@ use Turnstile\Turnstile;
 
 // API keys at https://dash.cloudflare.com/?to=/:account/turnstile
 $secretKey = '';
+// The UUID to be associated with the response.
+$idempotencyKey = (string) Uuid::uuid4();
 
 $turnstile = new Turnstile(
     client: new Client(
         new Psr18Client(),
     ),
     secretKey: $secretKey,
+    idempotencyKey: $idempotencyKey,
     timeoutSeconds: 300,
     hostname: $_SERVER['SERVER_NAME'],
     action: 'login',
