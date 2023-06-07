@@ -71,7 +71,7 @@ final class TurnstileTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $response->toArray(true),
+            $response->toArray(strict: true),
         );
         $this->assertEquals(
             [
@@ -114,7 +114,7 @@ final class TurnstileTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $response->toArray(true),
+            $response->toArray(strict: true),
         );
         $this->assertEquals(
             [
@@ -147,7 +147,7 @@ final class TurnstileTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $response->toArray(true),
+            $response->toArray(strict: true),
         );
         $this->assertEquals(
             [
@@ -190,7 +190,7 @@ final class TurnstileTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $response->toArray(true),
+            $response->toArray(strict: true),
         );
         $this->assertEquals(
             [
@@ -427,7 +427,7 @@ final class TurnstileTest extends TestCase {
                 'action' => 'login',
                 'cdata' => 'sessionid-123456789',
             ],
-            $response->toArray(true),
+            $response->toArray(strict: true),
         );
         $this->assertEquals(
             [
@@ -496,7 +496,7 @@ final class TurnstileTest extends TestCase {
                 'action' => 'login',
                 'cdata' => 'sessionid-123456789',
             ],
-            $response->toArray(true),
+            $response->toArray(strict: true),
         );
         $this->assertEquals(
             [

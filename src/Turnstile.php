@@ -83,7 +83,7 @@ final class Turnstile implements TurnstileInterface {
                 ],
                 ...[
                     ...\array_slice(
-                        array: $response->toArray(true),
+                        array: $response->toArray(strict: true),
                         offset: 2,
                     ),
                     'jsonDecode' => $response->toArray(),

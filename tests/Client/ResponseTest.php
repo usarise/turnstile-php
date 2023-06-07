@@ -31,7 +31,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $responseDecode->toArray(true),
+            $responseDecode->toArray(strict: true),
         );
         $this->assertEquals(
             '{"success": true}',
@@ -76,7 +76,7 @@ final class ResponseTest extends TestCase {
                 'action' => 'login',
                 'cdata' => 'sessionid-123456789',
             ],
-            $responseDecode->toArray(true),
+            $responseDecode->toArray(strict: true),
         );
         $this->assertEquals(
             $httpResponse,
@@ -96,7 +96,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $response->toArray(true),
+            $response->toArray(strict: true),
         );
 
         $this->assertEquals(
@@ -120,7 +120,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $response->toArray(true),
+            $response->toArray(strict: true),
         );
 
         $this->assertEquals(
@@ -145,7 +145,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $response->toArray(true),
+            $response->toArray(strict: true),
         );
 
         $this->assertEquals(
@@ -155,7 +155,7 @@ final class ResponseTest extends TestCase {
 
         $this->assertEquals(
             ['test' => 'jsonDecode'],
-            $response->toArray(false),
+            $response->toArray(strict: false),
         );
     }
 
@@ -197,7 +197,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $responseDecode->toArray(true),
+            $responseDecode->toArray(strict: true),
         );
         $this->assertEquals(
             'null',
@@ -222,7 +222,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $responseDecode->toArray(true),
+            $responseDecode->toArray(strict: true),
         );
         $this->assertEquals(
             'true',
@@ -247,7 +247,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $responseDecode->toArray(true),
+            $responseDecode->toArray(strict: true),
         );
         $this->assertEquals(
             '{"test": true}',
@@ -272,7 +272,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
             ],
-            $responseDecode->toArray(true),
+            $responseDecode->toArray(strict: true),
         );
         $this->assertEquals(
             'invalid',
