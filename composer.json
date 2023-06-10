@@ -49,9 +49,9 @@
     },
     "scripts": {
         "check": [
-            "vendor/bin/php-cs-fixer fix --dry-run --diff",
-            "vendor/bin/phpstan analyse",
-            "vendor/bin/rector process --dry-run"
+            "@csfixer",
+            "@phpstan",
+            "@rector"
         ],
         "cleanup": "rm .php-cs-fixer.dist.cache",
         "csfixer": "vendor/bin/php-cs-fixer fix --dry-run --diff",
