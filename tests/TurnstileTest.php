@@ -21,6 +21,7 @@ final class TurnstileTest extends TestCase {
 
     public function testBadSecretKey(): void {
         $this->expectException(TurnstileException::class);
+        $this->expectExceptionMessage('The secret key cannot be empty.');
 
         new Turnstile(
             new Client(
