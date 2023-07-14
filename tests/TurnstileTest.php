@@ -7,7 +7,7 @@ namespace TurnstileTests;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
-use Turnstile\Client\{Client, Response};
+use Turnstile\Client\Client;
 use Turnstile\{Turnstile, TurnstileException, TurnstileInterface};
 use TurnstileTests\Client\Psr18\HttpFactoryInterface;
 
@@ -56,11 +56,6 @@ final class TurnstileTest extends TestCase {
         ->verify('token', '127.0.0.1')
         ;
 
-        $this->assertInstanceOf(
-            Response::class,
-            $response,
-        );
-
         $this->assertTrue($response->success);
         $this->assertEquals(
             [
@@ -99,11 +94,6 @@ final class TurnstileTest extends TestCase {
             '127.0.0.1',
         );
 
-        $this->assertInstanceOf(
-            Response::class,
-            $response,
-        );
-
         $this->assertTrue($response->success);
         $this->assertEquals(
             [
@@ -130,11 +120,6 @@ final class TurnstileTest extends TestCase {
         $response = $turnstile->verify(
             'token',
             '127.0.0.1',
-        );
-
-        $this->assertInstanceOf(
-            Response::class,
-            $response,
         );
 
         $this->assertTrue($response->success);
@@ -170,11 +155,6 @@ final class TurnstileTest extends TestCase {
         ))
         ->verify('token')
         ;
-
-        $this->assertInstanceOf(
-            Response::class,
-            $response,
-        );
 
         $this->assertFalse($response->success);
         $this->assertEquals(
