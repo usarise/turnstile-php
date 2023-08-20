@@ -186,7 +186,7 @@ final class TurnstileTest extends TestCase {
         );
     }
 
-    public function testTimeoutSecondsValidation(): void {
+    public function testChallengeTimeoutValidation(): void {
         $challengeTs = $this->getChallengeTs('now');
 
         $response = (new Turnstile(
@@ -194,9 +194,11 @@ final class TurnstileTest extends TestCase {
                 '{"success": true, "challenge_ts": "' . $challengeTs . '"}',
             ),
             secretKey: 'secret',
-            timeoutSeconds: 15,
         ))
-        ->verify('token')
+        ->verify(
+            token: 'token',
+            challengeTimeout: 15,
+        )
         ;
 
         $this->assertTrue($response->success);
@@ -206,7 +208,7 @@ final class TurnstileTest extends TestCase {
         );
     }
 
-    public function testBadTimeoutSecondsValidation(): void {
+    public function testBadChallengeTimeoutValidation(): void {
         $challengeTs = $this->getChallengeTs('-150 sec');
 
         $response = (new Turnstile(
@@ -214,9 +216,11 @@ final class TurnstileTest extends TestCase {
                 '{"success": true, "challenge_ts": "' . $challengeTs . '"}',
             ),
             secretKey: 'secret',
-            timeoutSeconds: 15,
         ))
-        ->verify('token')
+        ->verify(
+            token: 'token',
+            challengeTimeout: 15,
+        )
         ;
 
         $this->assertFalse($response->success);
@@ -236,9 +240,11 @@ final class TurnstileTest extends TestCase {
                 '{"success": true, "hostname": "localhost.test"}',
             ),
             secretKey: 'secret',
-            hostname: 'localhost.test',
         ))
-        ->verify('token')
+        ->verify(
+            token: 'token',
+            expectedHostname: 'localhost.test',
+        )
         ;
 
         $this->assertTrue($response->success);
@@ -254,9 +260,11 @@ final class TurnstileTest extends TestCase {
                 '{"success": true, "hostname": "localhost.test"}',
             ),
             secretKey: 'secret',
-            hostname: 'localhost',
         ))
-        ->verify('token')
+        ->verify(
+            token: 'token',
+            expectedHostname: 'localhost',
+        )
         ;
 
         $this->assertFalse($response->success);
@@ -276,9 +284,11 @@ final class TurnstileTest extends TestCase {
                 '{"success": true, "action": "login"}',
             ),
             secretKey: 'secret',
-            action: 'login',
         ))
-        ->verify('token')
+        ->verify(
+            token: 'token',
+            expectedAction: 'login',
+        )
         ;
 
         $this->assertTrue($response->success);
@@ -294,9 +304,11 @@ final class TurnstileTest extends TestCase {
                 '{"success": true, "action": "login"}',
             ),
             secretKey: 'secret',
-            action: 'sign_in',
         ))
-        ->verify('token')
+        ->verify(
+            token: 'token',
+            expectedAction: 'sign_in',
+        )
         ;
 
         $this->assertFalse($response->success);
@@ -316,9 +328,11 @@ final class TurnstileTest extends TestCase {
                 '{"success": true, "cdata": "sessionid-123456789"}',
             ),
             secretKey: 'secret',
-            cData: 'sessionid-123456789',
         ))
-        ->verify('token')
+        ->verify(
+            token: 'token',
+            expectedCData: 'sessionid-123456789',
+        )
         ;
 
         $this->assertTrue($response->success);
@@ -334,9 +348,11 @@ final class TurnstileTest extends TestCase {
                 '{"success": true, "cdata": "sessionid-123456789"}',
             ),
             secretKey: 'secret',
-            cData: 'sessiondata',
         ))
-        ->verify('token')
+        ->verify(
+            token: 'token',
+            expectedCData: 'sessiondata',
+        )
         ;
 
         $this->assertFalse($response->success);
@@ -359,12 +375,14 @@ final class TurnstileTest extends TestCase {
                 $httpResponse,
             ),
             secretKey: 'secret',
-            timeoutSeconds: 15,
-            hostname: 'localhost',
-            action: 'sign_in',
-            cData: 'sessiondata',
         ))
-        ->verify('token')
+        ->verify(
+            token: 'token',
+            challengeTimeout: 15,
+            expectedHostname: 'localhost',
+            expectedAction: 'sign_in',
+            expectedCData: 'sessiondata',
+        )
         ;
 
         $this->assertFalse($response->success);
@@ -435,9 +453,11 @@ final class TurnstileTest extends TestCase {
                 $httpResponse,
             ),
             secretKey: 'secret',
-            hostname: 'localhost',
         ))
-        ->verify('token')
+        ->verify(
+            token: 'token',
+            expectedHostname: 'localhost',
+        )
         ;
 
         $this->assertFalse($response->success);

@@ -25,11 +25,14 @@ interface TurnstileInterface {
         Client $client,
         string $secretKey,
         ?string $idempotencyKey,
-        ?int $timeoutSeconds,
-        ?string $hostname,
-        ?string $action,
-        ?string $cData,
     );
 
-    public function verify(string $token, ?string $remoteIp): ResponseBase;
+    public function verify(
+        string $token,
+        ?string $remoteIp,
+        ?int $challengeTimeout,
+        ?string $expectedHostname,
+        ?string $expectedAction,
+        ?string $expectedCData,
+    ): ResponseBase;
 }

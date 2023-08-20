@@ -12,17 +12,20 @@ final class Turnstile implements TurnstileInterface {
         private readonly Client $client,
         private readonly string $secretKey,
         private readonly ?string $idempotencyKey = null,
-        private readonly ?int $timeoutSeconds = null,
-        private readonly ?string $hostname = null,
-        private readonly ?string $action = null,
-        private readonly ?string $cData = null,
     ) {
         if ($secretKey === '') {
             throw new TurnstileException('The secret key cannot be empty.');
         }
     }
 
-    public function verify(string $token, ?string $remoteIp = null): Response {
+    public function verify(
+        string $token,
+        ?string $remoteIp = null,
+        ?int $challengeTimeout = null,
+        ?string $expectedHostname = null,
+        ?string $expectedAction = null,
+        ?string $expectedCData = null,
+    ): Response {
         if ($token === '') {
             return new Response(
                 false,
@@ -48,29 +51,39 @@ final class Turnstile implements TurnstileInterface {
                     ),
                 ),
             ),
+            $challengeTimeout,
+            $expectedHostname,
+            $expectedAction,
+            $expectedCData,
         );
     }
 
-    private function extendVerify(Response $response): Response {
+    private function extendVerify(
+        Response $response,
+        ?int $challengeTimeout,
+        ?string $expectedHostname,
+        ?string $expectedAction,
+        ?string $expectedCData,
+    ): Response {
         $errorCodes = [];
 
-        if ($this->timeoutSeconds !== null) {
+        if ($challengeTimeout !== null) {
             $challengeTs = strtotime((string) $response->challengeTs);
 
-            if ((int) $challengeTs > 0 && (time() - $challengeTs) > $this->timeoutSeconds) {
+            if ((int) $challengeTs > 0 && (time() - $challengeTs) > $challengeTimeout) {
                 $errorCodes[] = ErrorCode::CHALLENGE_TIMEOUT;
             }
         }
 
-        if ($this->hostname !== null && $this->hostname !== $response->hostname) {
+        if ($expectedHostname !== null && $expectedHostname !== $response->hostname) {
             $errorCodes[] = ErrorCode::HOSTNAME_MISMATCH;
         }
 
-        if ($this->action !== null && $this->action !== $response->action) {
+        if ($expectedAction !== null && $expectedAction !== $response->action) {
             $errorCodes[] = ErrorCode::ACTION_MISMATCH;
         }
 
-        if ($this->cData !== null && $this->cData !== $response->cdata) {
+        if ($expectedCData !== null && $expectedCData !== $response->cdata) {
             $errorCodes[] = ErrorCode::CDATA_MISMATCH;
         }
 
