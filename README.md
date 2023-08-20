@@ -8,8 +8,20 @@
 
 Inspired on [recaptcha](https://github.com/google/recaptcha)
 
-## Installation
+## Table of contents
+1. [Installation](#installation)
+2. [Getting started](#getting-started)
+3. Usage
+   - [Turnstile](#usage-turnstile)
+   - [Client](#usage-client)
+     - [Examples http clients](#examples-http-clients)
+   - [Secret Key](#usage-secret-key)
+   - [Idempotency Key](#usage-idempotency-key)
+   - [Verify](#usage-verify)
+   - [Response](#usage-response)
+   - [Error to description](#usage-error-to-description)
 
+## Installation
 ```
 composer require usarise/turnstile
 ```
