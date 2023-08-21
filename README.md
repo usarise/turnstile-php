@@ -1,10 +1,10 @@
 # Turnstile PHP client library
 
-[![PHP Version](https://img.shields.io/packagist/dependency-v/usarise/turnstile/php.svg?colorB=%238892BF&style=flat-square)](https://php.net)
-[![Latest Version](https://img.shields.io/github/v/release/usarise/turnstile-php.svg?style=flat-square)](https://github.com/usarise/turnstile-php/releases)
-[![License](https://img.shields.io/github/license/usarise/turnstile-php?style=flat-square&colorB=darkcyan)](LICENSE)
-[![Total Downloads](https://img.shields.io/packagist/dt/usarise/turnstile.svg?style=flat-square)](https://packagist.org/packages/usarise/turnstile)
-[![Continuous Integration](https://github.com/usarise/turnstile-php/actions/workflows/ci.yml/badge.svg)](https://github.com/usarise/turnstile-php/actions/workflows/ci.yml)
+[![PHP Version](https://img.shields.io/packagist/dependency-v/usarise/turnstile/php.svg?colorB=%238892BF&style=flat-square&logo=php&logoColor=fff)](https://php.net)
+[![Latest Version](https://img.shields.io/github/v/release/usarise/turnstile-php.svg?style=flat-square&logo=semver)](https://github.com/usarise/turnstile-php/releases)
+[![License](https://img.shields.io/github/license/usarise/turnstile-php?style=flat-square&colorB=darkcyan&logo=unlicense&logoColor=fff)](LICENSE)
+[![Total Downloads](https://img.shields.io/packagist/dt/usarise/turnstile.svg?style=flat-square&logo=packagist&logoColor=fff)](https://packagist.org/packages/usarise/turnstile)
+[![GitHub CI](https://img.shields.io/github/actions/workflow/status/usarise/turnstile-php/ci.yml?style=flat-square&logo=github&label=GitHub%20CI)](https://github.com/usarise/turnstile-php/actions/workflows/ci.yml)
 
 Inspired on [recaptcha](https://github.com/google/recaptcha)
 
@@ -15,11 +15,11 @@ Inspired on [recaptcha](https://github.com/google/recaptcha)
    - [Turnstile](#usage-turnstile)
    - [Client](#usage-client)
      - [Examples http clients](#examples-http-clients)
-   - [Secret Key](#usage-secret-key)
-   - [Idempotency Key](#usage-idempotency-key)
-   - [Verify](#usage-verify)
-   - [Response](#usage-response)
-   - [Error to description](#usage-error-to-description)
+   - [secret key](#usage-secret-key)
+   - [idempotency key](#usage-idempotency-key)
+   - [verify](#usage-verify)
+   - [response](#usage-response)
+   - [error codes to description](#usage-error-codes-to-description)
 
 ## Installation
 ```
@@ -27,11 +27,11 @@ composer require usarise/turnstile
 ```
 
 ## Getting started
-#### Installation Symfony Http Client
+#### Installation symfony http client
 ```
 composer require symfony/http-client
 ```
-#### Installation Turnstile
+#### Installation turnstile
 ```
 composer require usarise/turnstile
 ```
@@ -107,7 +107,7 @@ var_dump($response->toArray());
 var_dump($response->toArray(strict: true));
 ```
 
-## Usage Turnstile
+## Usage `Turnstile`
 ### Construct
 ```php
 use Turnstile\Client\Client;
@@ -120,7 +120,7 @@ $turnstile = new Turnstile(
 );
 ```
 
-## Usage Client
+## Usage `Client`
 ### Construct
 ```php
 use Turnstile\Client\Client;
@@ -135,7 +135,7 @@ new Client(
 ```
 
 ### Examples http clients
-#### Symfony Http Client
+#### Symfony http client
 ##### Installation
 ```
 composer require symfony/http-client
@@ -149,7 +149,7 @@ new Client(
     new Psr18Client(),
 )
 ```
-#### Guzzle Http Client
+#### Guzzle http client
 ##### Installation
 ```
 composer require guzzlehttp/guzzle
@@ -165,12 +165,12 @@ new Client(
     new HttpFactory(),
 )
 ```
-#### Symfony Http Client and Nyholm PSR-7
-##### Installation Symfony Http Client
+#### Symfony http client and Nyholm PSR-7
+##### Installation symfony http client
 ```
 composer require symfony/http-client
 ```
-##### Installation Nyholm PSR-7
+##### Installation nyholm psr7
 ```
 composer require nyholm/psr7
 ```
@@ -185,12 +185,12 @@ new Client(
     new Psr17Factory(),
 )
 ```
-#### Guzzle Http Client and Nyholm PSR-7
-##### Installation Guzzle Http Client
+#### Guzzle http client and Nyholm PSR-7
+##### Installation guzzle http client
 ```
 composer require guzzlehttp/guzzle
 ```
-##### Installation Nyholm PSR-7
+##### Installation nyholm psr7
 ```
 composer require nyholm/psr7
 ```
@@ -206,7 +206,7 @@ new Client(
 )
 ```
 
-## Usage Secret Key
+## Usage secret key
 #### Real keys
 API keys at https://dash.cloudflare.com/?to=/:account/turnstile
 #### Test keys
@@ -229,7 +229,7 @@ $turnstile = new Turnstile(
 );
 ```
 
-## Usage Idempotency Key
+## Usage idempotency key
 #### Example with Ramsey UUID
 ##### Installation
 ```
@@ -251,7 +251,7 @@ $turnstile = new Turnstile(
 );
 ```
 
-## Usage Verify
+## Usage verify
 #### Sample
 ```php
 $response = $turnstile->verify(
@@ -273,16 +273,16 @@ $response = $turnstile->verify(
     challengeTimeout: 300, // Number of allowed seconds after the challenge was solved.
     expectedHostname: $_SERVER['SERVER_NAME'], // Expected hostname for which the challenge was served.
     expectedAction: 'login', // Expected customer widget identifier passed to the widget on the client side.
-    expectedCData: 'sessionid-123456789', // Expected customer data passed to the widget on the client side.
+    expectedCdata: 'sessionid-123456789', // Expected customer data passed to the widget on the client side.
 );
 ```
 
-## Usage Response
+## Usage response
 #### Success status
 ```php
 $response->success
 ```
-#### Error Codes
+#### Error codes
 ```php
 $response->errorCodes
 ```
@@ -298,28 +298,28 @@ $response->hostname
 ```php
 $response->action
 ```
-#### cData
+#### Customer data
 ```php
 $response->cdata
 ```
 #### To string
 String with raw json data
 ```php
-(string) $response;
+(string) $response
 ```
 #### To array
 Decoded json data
 ```php
-$response->toArray();
+$response->toArray()
 ```
 #### Object to array
 Array of processed json data based on properties of `Response` class:
 `success`, `errorCodes`, `challengeTs`, `hostname`, `action`, `cdata`
 ```php
-$response->toArray(strict: true);
+$response->toArray(strict: true)
 ```
 
-## Usage Error to description
+## Usage error codes to description
 Convert error codes to a description in a suitable language (default english)
 ```php
 use Turnstile\Error\{Code, Description};
