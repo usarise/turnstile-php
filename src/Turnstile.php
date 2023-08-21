@@ -24,7 +24,7 @@ final class Turnstile implements TurnstileInterface {
         ?int $challengeTimeout = null,
         ?string $expectedHostname = null,
         ?string $expectedAction = null,
-        ?string $expectedCData = null,
+        ?string $expectedCdata = null,
     ): Response {
         if ($token === '') {
             return new Response(
@@ -54,7 +54,7 @@ final class Turnstile implements TurnstileInterface {
             $challengeTimeout,
             $expectedHostname,
             $expectedAction,
-            $expectedCData,
+            $expectedCdata,
         );
     }
 
@@ -63,7 +63,7 @@ final class Turnstile implements TurnstileInterface {
         ?int $challengeTimeout,
         ?string $expectedHostname,
         ?string $expectedAction,
-        ?string $expectedCData,
+        ?string $expectedCdata,
     ): Response {
         $errorCodes = [];
 
@@ -83,7 +83,7 @@ final class Turnstile implements TurnstileInterface {
             $errorCodes[] = ErrorCode::ACTION_MISMATCH;
         }
 
-        if ($expectedCData !== null && $expectedCData !== $response->cdata) {
+        if ($expectedCdata !== null && $expectedCdata !== $response->cdata) {
             $errorCodes[] = ErrorCode::CDATA_MISMATCH;
         }
 

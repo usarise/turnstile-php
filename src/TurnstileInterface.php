@@ -33,6 +33,6 @@ interface TurnstileInterface {
         ?int $challengeTimeout,
         ?string $expectedHostname,
         ?string $expectedAction,
-        ?string $expectedCData,
+        ?string $expectedCdata,
     ): ResponseBase;
 }

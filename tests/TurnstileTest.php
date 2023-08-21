@@ -331,7 +331,7 @@ final class TurnstileTest extends TestCase {
         ))
         ->verify(
             token: 'token',
-            expectedCData: 'sessionid-123456789',
+            expectedCdata: 'sessionid-123456789',
         )
         ;
 
@@ -351,7 +351,7 @@ final class TurnstileTest extends TestCase {
         ))
         ->verify(
             token: 'token',
-            expectedCData: 'sessiondata',
+            expectedCdata: 'sessiondata',
         )
         ;
 
@@ -381,7 +381,7 @@ final class TurnstileTest extends TestCase {
             challengeTimeout: 15,
             expectedHostname: 'localhost',
             expectedAction: 'sign_in',
-            expectedCData: 'sessiondata',
+            expectedCdata: 'sessiondata',
         )
         ;
 
