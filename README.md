@@ -126,12 +126,12 @@ $turnstile = new Turnstile(
 use Turnstile\Client\Client;
 use Turnstile\TurnstileInterface;
 
-new Client(
+$client = new Client(
     client: ..., // implementation Psr\Http\Client\ClientInterface
     requestFactory: ..., // implementation Psr\Http\Message\RequestFactoryInterface (default: requestFactory = client)
     streamFactory: ..., // implementation Psr\Http\Message\StreamFactoryInterface (default: streamFactory = requestFactory)
     siteVerifyUrl: TurnstileInterface::SITE_VERIFY_URL, // https://challenges.cloudflare.com/turnstile/v0/siteverify (default)
-)
+);
 ```
 
 ### Examples http clients
@@ -145,9 +145,9 @@ composer require symfony/http-client
 use Symfony\Component\HttpClient\Psr18Client;
 use Turnstile\Client\Client;
 
-new Client(
+$client = new Client(
     new Psr18Client(),
-)
+);
 ```
 #### Guzzle http client
 ##### Installation
@@ -160,10 +160,10 @@ use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Psr7\HttpFactory;
 use Turnstile\Client\Client;
 
-new Client(
+$client = new Client(
     new GuzzleHttpClient(),
     new HttpFactory(),
-)
+);
 ```
 #### Symfony http client and Nyholm PSR-7
 ##### Installation symfony http client
@@ -180,10 +180,10 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Symfony\Component\HttpClient\Psr18Client;
 use Turnstile\Client\Client;
 
-new Client(
+$client = new Client(
     new Psr18Client(),
     new Psr17Factory(),
-)
+);
 ```
 #### Guzzle http client and Nyholm PSR-7
 ##### Installation guzzle http client
@@ -200,10 +200,10 @@ use GuzzleHttp\Client as GuzzleHttpClient;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Turnstile\Client\Client;
 
-new Client(
+$client = new Client(
     new GuzzleHttpClient(),
     new Psr17Factory(),
-)
+);
 ```
 
 ## Usage secret key
@@ -224,7 +224,7 @@ use Turnstile\Turnstile;
 $secretKey = '1x0000000000000000000000000000000AA';
 
 $turnstile = new Turnstile(
-    client: new Client(...),
+    client: $client,
     secretKey: $secretKey,
 );
 ```
@@ -245,8 +245,8 @@ use Turnstile\Turnstile;
 $idempotencyKey = (string) Uuid::uuid4();
 
 $turnstile = new Turnstile(
-    client: new Client(...),
-    secretKey: 'secret key',
+    client: $client,
+    secretKey: $secretKey,
     idempotencyKey: $idempotencyKey,
 );
 ```
