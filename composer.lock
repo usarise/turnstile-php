@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7bc9a694d7970d3b4ffdc3bc12eeff34",
+    "content-hash": "03f585e23e1ef6241a601a0b65faed67",
     "packages": [
         {
             "name": "psr/container",
@@ -1204,16 +1204,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.25.1",
+            "version": "v3.26.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "8e21d69801de6b5ecb0dbe0bcdf967b335b1260b"
+                "reference": "d023ba6684055f6ea1da1352d8a02baca0426983"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/8e21d69801de6b5ecb0dbe0bcdf967b335b1260b",
-                "reference": "8e21d69801de6b5ecb0dbe0bcdf967b335b1260b",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/d023ba6684055f6ea1da1352d8a02baca0426983",
+                "reference": "d023ba6684055f6ea1da1352d8a02baca0426983",
                 "shasum": ""
             },
             "require": {
@@ -1287,7 +1287,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.25.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.26.1"
             },
             "funding": [
                 {
@@ -1295,7 +1295,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-04T01:22:52+00:00"
+            "time": "2023-09-08T19:09:07+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -2267,16 +2267,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.18.1",
+            "version": "0.18.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "ee72ef542680a7f47ed8c6784f78b032c0d2f381"
+                "reference": "8606564b50ce70f99839d35c67f4536dc2ea090d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/ee72ef542680a7f47ed8c6784f78b032c0d2f381",
-                "reference": "ee72ef542680a7f47ed8c6784f78b032c0d2f381",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/8606564b50ce70f99839d35c67f4536dc2ea090d",
+                "reference": "8606564b50ce70f99839d35c67f4536dc2ea090d",
                 "shasum": ""
             },
             "require": {
@@ -2311,7 +2311,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.18.1"
+                "source": "https://github.com/rectorphp/rector/tree/0.18.2"
             },
             "funding": [
                 {
@@ -2319,7 +2319,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-28T18:01:58+00:00"
+            "time": "2023-09-06T08:50:38+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -2756,16 +2756,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "5.0.0",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "f3ec4bf931c0b31e5b413f5b4fc970a7d03338c0"
+                "reference": "32ff03d078fed1279c4ec9a407d08c5e9febb480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/f3ec4bf931c0b31e5b413f5b4fc970a7d03338c0",
-                "reference": "f3ec4bf931c0b31e5b413f5b4fc970a7d03338c0",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/32ff03d078fed1279c4ec9a407d08c5e9febb480",
+                "reference": "32ff03d078fed1279c4ec9a407d08c5e9febb480",
                 "shasum": ""
             },
             "require": {
@@ -2821,7 +2821,8 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/5.0.0"
+                "security": "https://github.com/sebastianbergmann/exporter/security/policy",
+                "source": "https://github.com/sebastianbergmann/exporter/tree/5.0.1"
             },
             "funding": [
                 {
@@ -2829,7 +2830,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-03T07:06:49+00:00"
+            "time": "2023-09-08T04:46:58+00:00"
         },
         {
             "name": "sebastian/global-state",
