@@ -20,8 +20,7 @@ final class Response extends ResponseBase {
         public readonly ?string $cdata = null,
         protected readonly array $jsonDecode = [],
         protected readonly string $httpBody = '',
-    ) {
-    }
+    ) {}
 
     public static function decode(string $httpResponse): static {
         try {

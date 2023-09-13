@@ -10,6 +10,5 @@ final class RequestParameters extends RequestBody {
         public readonly string $response,
         public readonly ?string $remoteip = null,
         public readonly ?string $idempotency_key = null,
-    ) {
-    }
+    ) {}
 }

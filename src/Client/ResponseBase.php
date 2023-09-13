@@ -11,8 +11,7 @@ abstract class ResponseBase implements \Stringable {
     public function __construct(
         protected readonly array $jsonDecode = [],
         protected readonly string $httpBody = '',
-    ) {
-    }
+    ) {}
 
     abstract public static function decode(string $httpResponse): static;
 
