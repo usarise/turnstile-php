@@ -27,8 +27,8 @@ return
             '@PhpCsFixer' => true,
             '@PhpCsFixer:risky' => true,
             '@PHPUnit100Migration:risky' => true,
-            '@PER' => true,
-            '@PER:risky' => true,
+            '@PER-CS2.0' => true,
+            '@PER-CS2.0:risky' => true,
             'blank_line_before_statement' => [
                 'statements' => [
                     'continue',
