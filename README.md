@@ -27,13 +27,9 @@ composer require usarise/turnstile
 ```
 
 ## Getting started
-#### Installation symfony http client
+#### Installation symfony http client and turnstile
 ```
-composer require symfony/http-client
-```
-#### Installation turnstile
-```
-composer require usarise/turnstile
+composer require symfony/http-client usarise/turnstile
 ```
 #### TurnstileExample.php
 ```php
@@ -166,13 +162,9 @@ $client = new Client(
 );
 ```
 #### Symfony http client and Nyholm PSR-7
-##### Installation symfony http client
+##### Installation symfony http client and nyholm psr7
 ```
-composer require symfony/http-client
-```
-##### Installation nyholm psr7
-```
-composer require nyholm/psr7
+composer require symfony/http-client nyholm/psr7
 ```
 ##### Usage
 ```php
@@ -186,13 +178,9 @@ $client = new Client(
 );
 ```
 #### Guzzle http client and Nyholm PSR-7
-##### Installation guzzle http client
+##### Installation guzzle http client and nyholm psr7
 ```
-composer require guzzlehttp/guzzle
-```
-##### Installation nyholm psr7
-```
-composer require nyholm/psr7
+composer require guzzlehttp/guzzle nyholm/psr7
 ```
 ##### Usage
 ```php
