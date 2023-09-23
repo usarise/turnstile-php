@@ -44,9 +44,6 @@ return
                 'classes_opening_brace' => 'same_line',
                 'functions_opening_brace' => 'same_line',
             ],
-            'concat_space' => [
-                'spacing' => 'one',
-            ],
             'comment_to_phpdoc' => ['ignored_tags' => ['fixme']],
             'date_time_immutable' => true,
             'final_class' => true,
