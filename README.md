@@ -266,7 +266,7 @@ $response = $turnstile->verify(
 #### Remote IP
 The remoteip parameter helps to prevent abuse by ensuring the current visitor is the one who received the token.
 
-**This is currently not strictly validated.**
+*This is currently not strictly validated.*
 
 ##### Basic usage
 ```php
