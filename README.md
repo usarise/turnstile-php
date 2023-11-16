@@ -57,7 +57,7 @@ if ($token = $_POST['cf-turnstile-response'] ?? null) {
     );
 
     $response = $turnstile->verify(
-        $token,
+        $token, // The response provided by the Turnstile client-side render on your site.
         $_SERVER['REMOTE_ADDR'], // With usage CloudFlare: $_SERVER['HTTP_CF_CONNECTING_IP']
     );
 
@@ -218,6 +218,9 @@ $turnstile = new Turnstile(
 ```
 
 ## Usage idempotency key
+If an application requires to retry failed requests, it must utilize the idempotency functionality.
+You can do so by providing a UUID as the `idempotencyKey` parameter and then use `$turnstile->verify(...)` with the same token the required number of times.
+
 #### Example with Ramsey UUID
 ##### Installation
 ```
@@ -229,14 +232,27 @@ use Ramsey\Uuid\Uuid;
 use Turnstile\Client\Client;
 use Turnstile\Turnstile;
 
-// The UUID to be associated with the response.
-$idempotencyKey = (string) Uuid::uuid4();
-
 $turnstile = new Turnstile(
     client: $client,
-    secretKey: $secretKey,
-    idempotencyKey: $idempotencyKey,
+    secretKey: $secretKey, // The site’s secret key.
+    idempotencyKey: (string) Uuid::uuid4(), // The UUID to be associated with the response.
 );
+
+$response = $turnstile->verify(
+    $token, // The response that will be associated with the UUID (idempotencyKey)
+);
+
+if ($response->success) {
+    // ...
+}
+
+$response = $turnstile->verify(
+    $token, // The response associated with UUID (idempotencyKey)
+);
+
+if ($response->success) {
+    // ...
+}
 ```
 
 ## Usage verify
