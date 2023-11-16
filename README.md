@@ -219,6 +219,7 @@ $turnstile = new Turnstile(
 
 ## Usage idempotency key
 If an application requires to retry failed requests, it must utilize the idempotency functionality.
+
 You can do so by providing a UUID as the `idempotencyKey` parameter and then use `$turnstile->verify(...)` with the same token the required number of times.
 
 #### Example with Ramsey UUID
@@ -263,8 +264,9 @@ $response = $turnstile->verify(
 );
 ```
 #### Remote IP
-> The remoteip parameter helps to prevent abuse by ensuring the current visitor is the one who received the token.
-This is currently not strictly validated.
+The remoteip parameter helps to prevent abuse by ensuring the current visitor is the one who received the token.
+
+**This is currently not strictly validated.**
 
 ##### Basic usage
 ```php
