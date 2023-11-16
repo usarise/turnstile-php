@@ -58,7 +58,7 @@ if ($token = $_POST['cf-turnstile-response'] ?? null) {
 
     $response = $turnstile->verify(
         $token,
-        $_SERVER['REMOTE_ADDR'],
+        $_SERVER['REMOTE_ADDR'], // With usage CloudFlare: $_SERVER['HTTP_CF_CONNECTING_IP']
     );
 
     if ($response->success) {
@@ -247,17 +247,27 @@ $response = $turnstile->verify(
 );
 ```
 #### Remote IP
+> The remoteip parameter helps to prevent abuse by ensuring the current visitor is the one who received the token.
+This is currently not strictly validated.
+
+##### Basic usage
 ```php
 $response = $turnstile->verify(
-    token: $_POST['cf-turnstile-response'],
+    token: $_POST['cf-turnstile-response'], // The response provided by the Turnstile client-side render on your site.
     remoteIp: $_SERVER['REMOTE_ADDR'], // The user’s IP address.
+);
+```
+##### With usage CloudFlare
+```php
+$response = $turnstile->verify(
+    token: $_POST['cf-turnstile-response'], // The response provided by the Turnstile client-side render on your site.
+    remoteIp: $_SERVER['HTTP_CF_CONNECTING_IP'], // The user’s IP address.
 );
 ```
 #### Extended
 ```php
 $response = $turnstile->verify(
-    token: $_POST['cf-turnstile-response'],
-    remoteIp: $_SERVER['REMOTE_ADDR'],
+    ...
     challengeTimeout: 300, // Number of allowed seconds after the challenge was solved.
     expectedHostname: $_SERVER['SERVER_NAME'], // Expected hostname for which the challenge was served.
     expectedAction: 'login', // Expected customer widget identifier passed to the widget on the client side.
