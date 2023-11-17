@@ -11,7 +11,7 @@ abstract class RequestBody implements \Stringable {
     final public function toArray(): array {
         return array_filter(
             get_object_vars($this),
-            static fn ($var): bool => $var !== null,
+            static fn($var): bool => $var !== null,
         );
     }
 
