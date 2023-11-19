@@ -15,6 +15,10 @@ Inspired on [recaptcha](https://github.com/google/recaptcha)
    - [Turnstile](#usage-turnstile)
    - [Client](#usage-client)
      - [Examples http clients](#examples-http-clients)
+       - [Guzzle http client](#guzzle-http-client)
+       - [Symfony http client and Nyholm PSR-7](#symfony-http-client-and-nyholm-psr-7)
+       - [Symfony http client and Guzzle PSR-7](#symfony-http-client-and-guzzle-psr-7)
+       - [Curl http client and Nyholm PSR-7](#curl-http-client-and-nyholm-psr-7)
    - [secret key](#usage-secret-key)
    - [idempotency key](#usage-idempotency-key)
    - [verify](#usage-verify)
@@ -27,7 +31,7 @@ composer require usarise/turnstile
 ```
 
 ## Getting started
-#### Installation symfony http client and nyholm psr7 and turnstile
+#### Installation symfony http client and nyholm psr7 and usarise turnstile
 ```
 composer require symfony/http-client nyholm/psr7 usarise/turnstile
 ```
