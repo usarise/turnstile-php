@@ -20,7 +20,8 @@
         "ext-json": "*",
         "psr/http-client": "^1.0",
         "psr/http-client-implementation": "^1.0",
-        "psr/http-factory": "^1.0"
+        "psr/http-factory": "^1.0",
+        "psr/http-factory-implementation": "^1.0"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.39.0",
