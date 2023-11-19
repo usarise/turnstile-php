@@ -179,7 +179,7 @@ $client = new Client(
     ),
 );
 ```
-#### Nyholm PSR-7 and PSR-18 cURL client
+#### Curl http client and Nyholm PSR-7
 ##### Installation nyholm psr7 and php http curl client
 ```
 composer require nyholm/psr7 php-http/curl-client
