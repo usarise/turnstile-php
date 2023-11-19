@@ -27,9 +27,9 @@ composer require usarise/turnstile
 ```
 
 ## Getting started
-#### Installation symfony http client and turnstile
+#### Installation symfony http client and nyholm psr7 and turnstile
 ```
-composer require symfony/http-client usarise/turnstile
+composer require symfony/http-client nyholm/psr7 usarise/turnstile
 ```
 #### TurnstileExample.php
 ```php
@@ -131,20 +131,6 @@ $client = new Client(
 ```
 
 ### Examples http clients
-#### Symfony http client
-##### Installation
-```
-composer require symfony/http-client
-```
-##### Usage
-```php
-use Symfony\Component\HttpClient\Psr18Client;
-use Turnstile\Client\Client;
-
-$client = new Client(
-    new Psr18Client(),
-);
-```
 #### Guzzle http client
 ##### Installation
 ```
@@ -168,29 +154,49 @@ composer require symfony/http-client nyholm/psr7
 ```
 ##### Usage
 ```php
-use Nyholm\Psr7\Factory\Psr17Factory;
 use Symfony\Component\HttpClient\Psr18Client;
 use Turnstile\Client\Client;
 
 $client = new Client(
     new Psr18Client(),
-    new Psr17Factory(),
 );
 ```
-#### Guzzle http client and Nyholm PSR-7
-##### Installation guzzle http client and nyholm psr7
+#### Symfony http client and Guzzle PSR-7
+##### Installation symfony http client and guzzlehttp psr7
 ```
-composer require guzzlehttp/guzzle nyholm/psr7
+composer require symfony/http-client guzzlehttp/psr7
 ```
 ##### Usage
 ```php
-use GuzzleHttp\Client as GuzzleHttpClient;
-use Nyholm\Psr7\Factory\Psr17Factory;
+use GuzzleHttp\Psr7\HttpFactory;
+use Symfony\Component\HttpClient\{HttpClient, Psr18Client};
 use Turnstile\Client\Client;
 
 $client = new Client(
-    new GuzzleHttpClient(),
-    new Psr17Factory(),
+    new Psr18Client(
+        HttpClient::create(),
+        new HttpFactory(),
+    ),
+);
+```
+#### Nyholm PSR-7 and PSR-18 cURL client
+##### Installation nyholm psr7 and php http curl client
+```
+composer require nyholm/psr7 php-http/curl-client
+```
+##### Usage
+```php
+use Http\Client\Curl\Client as CurlClient;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Turnstile\Client\Client;
+
+$psr17Factory = new Psr17Factory();
+$client = new Client(
+    client: new CurlClient(
+        responseFactory: $psr17Factory,
+        streamFactory: $psr17Factory,
+    ),
+    requestFactory: $psr17Factory,
 );
 ```
 
