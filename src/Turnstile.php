@@ -26,23 +26,22 @@ final class Turnstile implements TurnstileInterface {
         ?string $expectedAction = null,
         ?string $expectedCdata = null,
     ): Response {
-        if ($token === '') {
-            return new Response(
-                false,
-                [ErrorCode::MISSING_INPUT_RESPONSE],
-            );
-        }
+        $errorInputResponse = match (true) {
+            $token === '' => ErrorCode::MISSING_INPUT_RESPONSE,
+            \strlen($token) > self::MAX_LENGTH_TOKEN => ErrorCode::INVALID_INPUT_RESPONSE,
+            default => null,
+        };
 
-        if (\strlen($token) > self::MAX_LENGTH_TOKEN) {
+        if ($errorInputResponse) {
             return new Response(
                 false,
-                [ErrorCode::INVALID_INPUT_RESPONSE],
+                [$errorInputResponse],
             );
         }
 
         return $this->extendVerify(
             Response::decode(
-                $this->client->sendRequest(
+                httpResponse: $this->client->sendRequest(
                     new RequestParameters(
                         $this->secretKey,
                         $token,
