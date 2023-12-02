@@ -75,13 +75,12 @@ if ($token = $_POST['cf-turnstile-response'] ?? null) {
 
     exit;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Turnstile Example</title>
+  <title>Turnstile example</title>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
