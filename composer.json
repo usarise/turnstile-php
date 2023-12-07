@@ -55,7 +55,7 @@
             "@rector"
         ],
         "cleanup": "rm .php-cs-fixer.dist.cache",
-        "csfixer": "vendor/bin/php-cs-fixer check --diff",
+        "csfixer": "vendor/bin/php-cs-fixer check --verbose --diff",
         "phpstan": "vendor/bin/phpstan analyse",
         "rector": "vendor/bin/rector process --dry-run",
         "test": "vendor/bin/phpunit tests"
