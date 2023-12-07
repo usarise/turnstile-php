@@ -40,7 +40,7 @@ return
                 ],
             ],
             'blank_line_between_import_groups' => false,
-            'curly_braces_position' => [
+            'braces_position' => [
                 'classes_opening_brace' => 'same_line',
                 'functions_opening_brace' => 'same_line',
             ],
