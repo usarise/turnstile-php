@@ -54,7 +54,7 @@
             "@phpstan",
             "@rector"
         ],
-        "cleanup": "rm .php-cs-fixer.dist.cache",
+        "cleanup": "rm -r var/cache",
         "csfixer": "vendor/bin/php-cs-fixer check --verbose --diff",
         "phpstan": "vendor/bin/phpstan analyse",
         "rector": "vendor/bin/rector process --dry-run",

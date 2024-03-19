@@ -10,6 +10,8 @@ use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
 return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->cacheDirectory(__DIR__ . '/var/cache/rector');
+
     $rectorConfig->paths([
         __DIR__ . '/src',
         __DIR__ . '/tests',

@@ -12,6 +12,7 @@ $finder = PhpCsFixer\Finder::create()
         __FILE__,
     ])
     ->exclude([
+        'var',
         'vendor',
     ])
 ;
@@ -19,7 +20,7 @@ $finder = PhpCsFixer\Finder::create()
 return
     (new PhpCsFixer\Config())
         ->setFinder($finder)
-        ->setCacheFile(__DIR__ . '/.php-cs-fixer.dist.cache')
+        ->setCacheFile(__DIR__ . '/var/cache/.php-cs-fixer.dist.cache')
         ->setRiskyAllowed(true)
         ->setRules([
             '@PHP80Migration:risky' => true,
