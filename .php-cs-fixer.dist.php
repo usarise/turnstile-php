@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$finder = PhpCsFixer\Finder::create()
+use PhpCsFixer\{Config, Finder};
+
+$finder = Finder::create()
     ->in([
         __DIR__,
     ])
@@ -18,7 +20,7 @@ $finder = PhpCsFixer\Finder::create()
 ;
 
 return
-    (new PhpCsFixer\Config())
+    (new Config())
         ->setFinder($finder)
         ->setCacheFile(__DIR__ . '/var/cache/.php-cs-fixer.dist.cache')
         ->setRiskyAllowed(true)
