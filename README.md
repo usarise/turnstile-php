@@ -18,6 +18,7 @@ Inspired on [recaptcha](https://github.com/google/recaptcha)
        - [Guzzle http client](#guzzle-http-client)
        - [Symfony http client and Nyholm PSR-7](#symfony-http-client-and-nyholm-psr-7)
        - [Symfony http client and Guzzle PSR-7](#symfony-http-client-and-guzzle-psr-7)
+       - [Symfony http client and Guzzle PSR-7 and Discovery](#symfony-http-client-and-guzzle-psr-7-and-discovery)
        - [Curl http client and Nyholm PSR-7](#curl-http-client-and-nyholm-psr-7)
        - [Discovery http client](#discovery-http-client)
    - [secret key](#usage-secret-key)
@@ -203,6 +204,26 @@ use Symfony\Component\HttpClient\Psr18Client;
 $client = new Psr18Client(
     responseFactory: new HttpFactory(),
 );
+```
+#### Symfony http client and Guzzle PSR-7 and Discovery
+##### Installation symfony http client and guzzlehttp psr7 and php http discovery
+```
+composer require symfony/http-client guzzlehttp/psr7 php-http/discovery
+```
+##### Usage
+```php
+use Symfony\Component\HttpClient\Psr18Client;
+use Turnstile\Client\Client;
+
+$client = new Client(
+    new Psr18Client(),
+);
+```
+##### Simplified construct
+```php
+use Symfony\Component\HttpClient\Psr18Client;
+
+$client = new Psr18Client();
 ```
 #### Curl http client and Nyholm PSR-7
 ##### Installation nyholm psr7 and php http curl client
