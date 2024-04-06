@@ -19,6 +19,7 @@ Inspired on [recaptcha](https://github.com/google/recaptcha)
        - [Symfony http client and Nyholm PSR-7](#symfony-http-client-and-nyholm-psr-7)
        - [Symfony http client and Guzzle PSR-7](#symfony-http-client-and-guzzle-psr-7)
        - [Curl http client and Nyholm PSR-7](#curl-http-client-and-nyholm-psr-7)
+       - [Discovery http client](#discovery-http-client)
    - [secret key](#usage-secret-key)
    - [idempotency key](#usage-idempotency-key)
    - [verify](#usage-verify)
@@ -223,6 +224,26 @@ $client = new Client(
     ),
     requestFactory: $psr17Factory,
 );
+```
+#### Discovery http client
+##### Installation php http discovery
+```
+composer require php-http/discovery
+```
+##### Usage
+```php
+use Http\Discovery\Psr18Client;
+use Turnstile\Client\Client;
+
+$client = new Client(
+    new Psr18Client(),
+);
+```
+##### Simplified construct
+```php
+use Http\Discovery\Psr18Client;
+
+$client = new Psr18Client();
 ```
 
 ## Usage secret key
