@@ -44,7 +44,6 @@ declare(strict_types=1);
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Symfony\Component\HttpClient\Psr18Client;
-use Turnstile\Client\Client;
 use Turnstile\Error\Code;
 use Turnstile\Turnstile;
 
@@ -54,9 +53,7 @@ $secretKey = '1x0000000000000000000000000000000AA'; // Always passes (Dummy Test
 
 if ($token = $_POST['cf-turnstile-response'] ?? null) {
     $turnstile = new Turnstile(
-        client: new Client(
-            new Psr18Client(),
-        ),
+        client: new Psr18Client(),
         secretKey: $secretKey,
     );
 
@@ -118,6 +115,16 @@ $turnstile = new Turnstile(
     idempotencyKey: 'idempotency key',
 );
 ```
+### Simplified construct
+PSR-18 Clients like `php-http/discovery`
+
+```php
+$turnstile = new Turnstile(
+    client: new Psr18Client(),
+    secretKey: 'secret key',
+    idempotencyKey: 'idempotency key',
+);
+```
 
 ## Usage `Client`
 ### Construct
@@ -164,6 +171,12 @@ $client = new Client(
     new Psr18Client(),
 );
 ```
+##### Simplified construct
+```php
+use Symfony\Component\HttpClient\Psr18Client;
+
+$client = new Psr18Client();
+```
 #### Symfony http client and Guzzle PSR-7
 ##### Installation symfony http client and guzzlehttp psr7
 ```
@@ -172,14 +185,22 @@ composer require symfony/http-client guzzlehttp/psr7
 ##### Usage
 ```php
 use GuzzleHttp\Psr7\HttpFactory;
-use Symfony\Component\HttpClient\{HttpClient, Psr18Client};
+use Symfony\Component\HttpClient\Psr18Client;
 use Turnstile\Client\Client;
 
 $client = new Client(
     new Psr18Client(
-        HttpClient::create(),
-        new HttpFactory(),
+        responseFactory: new HttpFactory(),
     ),
+);
+```
+##### Simplified construct
+```php
+use GuzzleHttp\Psr7\HttpFactory;
+use Symfony\Component\HttpClient\Psr18Client;
+
+$client = new Psr18Client(
+    responseFactory: new HttpFactory(),
 );
 ```
 #### Curl http client and Nyholm PSR-7
@@ -194,6 +215,7 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Turnstile\Client\Client;
 
 $psr17Factory = new Psr17Factory();
+
 $client = new Client(
     client: new CurlClient(
         responseFactory: $psr17Factory,

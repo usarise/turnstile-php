@@ -45,6 +45,16 @@ final class TurnstileTest extends TestCase {
                 'secret',
             ),
         );
+
+        $this->assertInstanceOf(
+            TurnstileInterface::class,
+            new Turnstile(
+                $this->createMock(
+                    HttpFactoryInterface::class,
+                ),
+                'secret',
+            ),
+        );
     }
 
     public function testVerify(): void {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Turnstile\Client;
 
-use Psr\Http\Client\ClientInterface as HttpClientInterface;
+use Psr\Http\Client\ClientInterface as PsrHttpClientInterface;
 use Psr\Http\Message\{RequestFactoryInterface, RequestInterface, StreamFactoryInterface};
 use Turnstile\TurnstileInterface;
 
@@ -13,7 +13,7 @@ final class Client {
     public readonly StreamFactoryInterface $streamFactory;
 
     public function __construct(
-        public readonly HttpClientInterface $client,
+        public readonly PsrHttpClientInterface $client,
         ?RequestFactoryInterface $requestFactory = null,
         ?StreamFactoryInterface $streamFactory = null,
         public readonly string $siteVerifyUrl = TurnstileInterface::SITE_VERIFY_URL,
