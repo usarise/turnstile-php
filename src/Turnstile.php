@@ -91,7 +91,7 @@ final class Turnstile implements TurnstileInterface {
             $errorCodes[] = ErrorCode::CDATA_MISMATCH;
         }
 
-        if ($errorCodes) {
+        if ($errorCodes !== []) {
             return new Response(
                 false,
                 [
