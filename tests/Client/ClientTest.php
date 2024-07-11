@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\{RequestFactoryInterface, StreamFactoryInterface};
 use Turnstile\Client\{Client, RequestParameters};
-use Turnstile\TurnstileInterface;
+use Turnstile\{TurnstileException, TurnstileInterface};
 use TurnstileTests\Client\Psr18\HttpFactoryInterface;
 
 final class ClientTest extends TestCase {
@@ -100,6 +100,37 @@ final class ClientTest extends TestCase {
         $this->assertEquals(
             TurnstileInterface::SITE_VERIFY_URL,
             $client->siteVerifyUrl,
+        );
+    }
+
+    public function testBadRequestFactory(): void {
+        $this->expectException(TurnstileException::class);
+        $this->expectExceptionMessage(
+            'Argument #1 ($client) or argument #2 ($requestFactory) must be support implement ' .
+            RequestFactoryInterface::class,
+        );
+
+        new Client(
+            $this->createMock(
+                ClientInterface::class,
+            ),
+        );
+    }
+
+    public function testBadStreamFactory(): void {
+        $this->expectException(TurnstileException::class);
+        $this->expectExceptionMessage(
+            'Argument #1 ($client) or argument #2 ($requestFactory) or argument #3 ($streamFactory) must be support implement ' .
+            StreamFactoryInterface::class,
+        );
+
+        new Client(
+            $this->createMock(
+                ClientInterface::class,
+            ),
+            $this->createMock(
+                RequestFactoryInterface::class,
+            ),
         );
     }
 
