@@ -268,6 +268,7 @@ $client = new Psr18Client();
 ```
 
 ## Usage secret key
+The widget’s secret key. The secret key can be found under widget settings in the Cloudflare dashboard under Turnstile.
 #### Real keys
 API keys at https://dash.cloudflare.com/?to=/:account/turnstile
 #### Test keys
@@ -345,14 +346,14 @@ The `remoteIp` parameter helps to prevent abuse by ensuring the current visitor 
 ```php
 $response = $turnstile->verify(
     token: $_POST['cf-turnstile-response'], // The response provided by the Turnstile client-side render on your site.
-    remoteIp: $_SERVER['REMOTE_ADDR'], // The user’s IP address.
+    remoteIp: $_SERVER['REMOTE_ADDR'], // The visitor’s IP address.
 );
 ```
 ##### With usage CloudFlare
 ```php
 $response = $turnstile->verify(
     token: $_POST['cf-turnstile-response'], // The response provided by the Turnstile client-side render on your site.
-    remoteIp: $_SERVER['HTTP_CF_CONNECTING_IP'], // The user’s IP address.
+    remoteIp: $_SERVER['HTTP_CF_CONNECTING_IP'], // The visitor’s IP address.
 );
 ```
 #### Extended
