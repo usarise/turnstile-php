@@ -11,7 +11,7 @@ final class ErrorCodeTest extends TestCase {
     public function testToDescriptionShort(): void {
         $this->assertEquals(
             [
-                'The response parameter was not passed',
+                'The response parameter (token) was not passed',
             ],
             ErrorCode::toDescription(
                 [
@@ -76,7 +76,7 @@ final class ErrorCodeTest extends TestCase {
 
         $this->assertEquals(
             [
-                'The response parameter was not passed',
+                'The response parameter (token) was not passed',
                 'test-error',
             ],
             ErrorCode::toDescription(
