@@ -33,7 +33,7 @@ final class Turnstile implements TurnstileInterface {
     ): Response {
         $errorInputResponse = match (true) {
             $token === '' => ErrorCode::MISSING_INPUT_RESPONSE,
-            \strlen($token) > self::MAX_LENGTH_TOKEN => ErrorCode::INVALID_INPUT_RESPONSE,
+            \strlen($token) > self::MAX_TOKEN_LENGTH => ErrorCode::INVALID_INPUT_RESPONSE,
             default => null,
         };
 

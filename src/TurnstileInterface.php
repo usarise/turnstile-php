@@ -13,13 +13,13 @@ interface TurnstileInterface {
     public const SITE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
     /**
-     * Token max length.
+     * Maximum token length.
      *
      * @see https://developers.cloudflare.com/turnstile/frequently-asked-questions/#what-is-the-length-of-a-turnstile-token
      *
      * @var int
      */
-    public const MAX_LENGTH_TOKEN = 2048;
+    public const MAX_TOKEN_LENGTH = 2048;
 
     public function __construct(
         Client $client,
