@@ -8,7 +8,8 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Turnstile\Client\Client;
-use Turnstile\{Turnstile, TurnstileException, TurnstileInterface};
+use Turnstile\{Turnstile, TurnstileInterface};
+use Turnstile\Exception\InvalidArgumentException;
 use TurnstileTests\Client\Psr18\HttpFactoryInterface;
 
 final class TurnstileTest extends TestCase {
@@ -30,7 +31,7 @@ final class TurnstileTest extends TestCase {
     }
 
     public function testBadSecretKey(): void {
-        $this->expectException(TurnstileException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The secret key cannot be empty.');
 
         new Turnstile(

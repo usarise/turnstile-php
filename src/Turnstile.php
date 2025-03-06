@@ -7,6 +7,7 @@ namespace Turnstile;
 use Psr\Http\Client\ClientInterface as PsrHttpClientInterface;
 use Turnstile\Client\{Client, RequestParameters, Response};
 use Turnstile\Error\Code as ErrorCode;
+use Turnstile\Exception\InvalidArgumentException;
 
 final class Turnstile implements TurnstileInterface {
     private readonly Client $client;
@@ -19,7 +20,7 @@ final class Turnstile implements TurnstileInterface {
         $this->client = ($client instanceof PsrHttpClientInterface) ? new Client($client) : $client;
 
         if ($secretKey === '') {
-            throw new TurnstileException('The secret key cannot be empty.');
+            throw new InvalidArgumentException('The secret key cannot be empty.');
         }
     }
 

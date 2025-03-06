@@ -6,7 +6,8 @@ namespace Turnstile\Client;
 
 use Psr\Http\Client\ClientInterface as PsrHttpClientInterface;
 use Psr\Http\Message\{RequestFactoryInterface, RequestInterface, StreamFactoryInterface};
-use Turnstile\{TurnstileException , TurnstileInterface};
+use Turnstile\Exception\InvalidArgumentException;
+use Turnstile\TurnstileInterface;
 
 final class Client {
     public readonly RequestFactoryInterface $requestFactory;
@@ -22,14 +23,14 @@ final class Client {
         $streamFactory ??= $requestFactory;
 
         if (!$requestFactory instanceof RequestFactoryInterface) {
-            throw new TurnstileException(
+            throw new InvalidArgumentException(
                 'Argument #1 ($client) or argument #2 ($requestFactory) must be support implement ' .
                 RequestFactoryInterface::class,
             );
         }
 
         if (!$streamFactory instanceof StreamFactoryInterface) {
-            throw new TurnstileException(
+            throw new InvalidArgumentException(
                 'Argument #1 ($client) or argument #2 ($requestFactory) or argument #3 ($streamFactory) must be support implement ' .
                 StreamFactoryInterface::class,
             );
