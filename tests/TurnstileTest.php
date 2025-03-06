@@ -8,8 +8,8 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Turnstile\Client\Client;
-use Turnstile\{Turnstile, TurnstileInterface};
 use Turnstile\Exception\InvalidArgumentException;
+use Turnstile\{Turnstile, TurnstileInterface};
 use TurnstileTests\Client\Psr18\HttpFactoryInterface;
 
 final class TurnstileTest extends TestCase {
