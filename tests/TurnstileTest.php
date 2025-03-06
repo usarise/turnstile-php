@@ -12,10 +12,20 @@ use Turnstile\{Turnstile, TurnstileException, TurnstileInterface};
 use TurnstileTests\Client\Psr18\HttpFactoryInterface;
 
 final class TurnstileTest extends TestCase {
-    public function testSiteVerifyUrlDefault(): void {
+    /**
+     * Interface constant values.
+     *
+     * @see https://developers.cloudflare.com/turnstile/get-started/server-side-validation/
+     */
+    public function testInterfaceConstantValue(): void {
         $this->assertEquals(
             'https://challenges.cloudflare.com/turnstile/v0/siteverify',
             TurnstileInterface::SITE_VERIFY_URL,
+        );
+
+        $this->assertEquals(
+            2048,
+            TurnstileInterface::MAX_TOKEN_LENGTH,
         );
     }
 
