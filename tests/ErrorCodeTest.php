@@ -25,7 +25,7 @@ final class ErrorCodeTest extends TestCase {
         $this->assertEquals(
             [
                 'The secret parameter was not passed',
-                'The secret parameter was invalid or did not exist',
+                'The secret parameter was invalid, did not exist, or is a testing secret key with a non-testing response',
                 'The response parameter (token) was not passed',
                 'The response parameter (token) is invalid or has expired. Most of the time, this means a fake token has been used. If the error persists, contact customer support',
                 'The request was rejected because it was malformed',
