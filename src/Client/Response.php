@@ -6,6 +6,9 @@ namespace Turnstile\Client;
 
 use Turnstile\Error\Code as ErrorCode;
 
+/**
+ * @api
+ */
 final class Response extends ResponseBase {
     /**
      * @param array<int, string> $errorCodes

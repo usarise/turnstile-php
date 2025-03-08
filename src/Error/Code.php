@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Turnstile\Error;
 
+/**
+ * @api
+ */
 final class Code {
     /**
      * @var string

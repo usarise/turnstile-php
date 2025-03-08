@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Turnstile\Client;
 
+/**
+ * @api
+ */
 abstract class RequestBody implements \Stringable {
     /**
      * @return array<string, string>

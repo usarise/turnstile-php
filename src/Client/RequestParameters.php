@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Turnstile\Client;
 
+/**
+ * @internal
+ */
 final class RequestParameters extends RequestBody {
     public function __construct(
         public readonly string $secret,

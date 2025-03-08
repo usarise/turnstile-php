@@ -6,6 +6,9 @@ namespace Turnstile;
 
 use Turnstile\Client\{Client, ResponseBase};
 
+/**
+ * @api
+ */
 interface TurnstileInterface {
     /**
      * @var string

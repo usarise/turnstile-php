@@ -9,6 +9,9 @@ use Psr\Http\Message\{RequestFactoryInterface, RequestInterface, StreamFactoryIn
 use Turnstile\Exception\InvalidArgumentException;
 use Turnstile\TurnstileInterface;
 
+/**
+ * @api
+ */
 final class Client {
     public readonly RequestFactoryInterface $requestFactory;
     public readonly StreamFactoryInterface $streamFactory;

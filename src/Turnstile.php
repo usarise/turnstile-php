@@ -9,6 +9,9 @@ use Turnstile\Client\{Client, RequestParameters, Response};
 use Turnstile\Error\Code as ErrorCode;
 use Turnstile\Exception\InvalidArgumentException;
 
+/**
+ * @api
+ */
 final class Turnstile implements TurnstileInterface {
     private readonly Client $client;
 
