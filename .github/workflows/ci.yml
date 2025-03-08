@@ -75,7 +75,7 @@ jobs:
       - uses: ramsey/composer-install@v2
         with:
           composer-options: --prefer-dist --optimize-autoloader --ansi
-      - run: composer rector -- --ansi
+      - run: composer rector -- --ansi --output-format=github
 
   phpunit:
     runs-on: ubuntu-latest
