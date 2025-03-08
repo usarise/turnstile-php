@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Turnstile;
 
-use Turnstile\Client\{Client, ResponseBase};
+use Turnstile\Client\Abstract\Response as AbstractResponse;
+use Turnstile\Client\Client;
 
 /**
  * @api
@@ -33,5 +34,5 @@ interface TurnstileInterface {
         ?string $expectedHostname,
         ?string $expectedAction,
         ?string $expectedCdata,
-    ): ResponseBase;
+    ): AbstractResponse;
 }

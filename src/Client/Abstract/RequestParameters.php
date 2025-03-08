@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Turnstile\Client;
+namespace Turnstile\Client\Abstract;
 
 /**
  * @api
  */
-abstract class RequestBody implements \Stringable {
+abstract class RequestParameters implements \Stringable {
     /**
      * @return array<string, string>
      */

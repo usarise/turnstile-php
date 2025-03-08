@@ -6,6 +6,7 @@ namespace Turnstile\Client;
 
 use Psr\Http\Client\ClientInterface as PsrHttpClientInterface;
 use Psr\Http\Message\{RequestFactoryInterface, RequestInterface, StreamFactoryInterface};
+use Turnstile\Client\Abstract\RequestParameters as AbstractRequestParameters;
 use Turnstile\Exception\InvalidArgumentException;
 use Turnstile\TurnstileInterface;
 
@@ -43,22 +44,22 @@ final class Client {
         $this->streamFactory = $streamFactory;
     }
 
-    public function createRequest(RequestBody $requestBody): RequestInterface {
+    public function createRequest(AbstractRequestParameters $requestParameters): RequestInterface {
         return $this->requestFactory
             ->createRequest('POST', $this->siteVerifyUrl)
             ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
             ->withBody(
                 $this->streamFactory->createStream(
-                    (string) $requestBody,
+                    (string) $requestParameters,
                 ),
             )
         ;
     }
 
-    public function sendRequest(RequestBody $requestBody): string {
+    public function sendRequest(AbstractRequestParameters $requestParameters): string {
         return (string) $this->client->sendRequest(
             $this->createRequest(
-                $requestBody,
+                $requestParameters,
             ),
         )
         ->getBody()

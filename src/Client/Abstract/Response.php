@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Turnstile\Client;
+namespace Turnstile\Client\Abstract;
 
 /**
  * @api
  */
-abstract class ResponseBase implements \Stringable {
+abstract class Response implements \Stringable {
     /**
      * @param array<string, mixed> $jsonDecode
      */

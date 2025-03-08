@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Turnstile\Client;
 
+use Turnstile\Client\Abstract\Response as AbstractResponse;
 use Turnstile\Error\Code as ErrorCode;
 
 /**
  * @api
  */
-final class Response extends ResponseBase {
+final class Response extends AbstractResponse {
     /**
      * @param array<int, string> $errorCodes
      * @param array<string, mixed> $jsonDecode
