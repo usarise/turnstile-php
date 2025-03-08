@@ -19,12 +19,12 @@ final class TurnstileIntegrationTest extends TestCase {
 
         $this->assertTrue($response->success);
         $this->assertEquals(
-            $response->errorCodes,
             [],
+            $response->errorCodes,
         );
         $this->assertEquals(
-            $response->hostname,
-            'example.com',
+            ['result_with_testing_key' => true],
+            $response->metadata,
         );
     }
 
