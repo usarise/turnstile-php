@@ -30,6 +30,7 @@ final class ResponseTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+                'metadata' => null,
             ],
             $responseDecode->toArray(strict: true),
         );
@@ -41,7 +42,7 @@ final class ResponseTest extends TestCase {
 
     public function testDecodeFull(): void {
         $challengeTs = gmdate('Y-m-d\TH:i:s.vp');
-        $httpResponse = '{"success": false, "error-codes": ["test-error"], "hostname": "localhost.test", "challenge_ts": "' . $challengeTs . '", "action": "login", "cdata": "sessionid-123456789"}';
+        $httpResponse = '{"success": false, "error-codes": ["test-error"], "hostname": "localhost.test", "challenge_ts": "' . $challengeTs . '", "action": "login", "cdata": "sessionid-123456789", "metadata": {"ephemeral_id": "x:9f78e0ed210960d7693b167e"}}';
         $responseDecode = Response::decode($httpResponse);
 
         $this->assertFalse($responseDecode->success);
@@ -66,6 +67,10 @@ final class ResponseTest extends TestCase {
             'sessionid-123456789',
             $responseDecode->cdata,
         );
+        $this->assertEquals(
+            ['ephemeral_id' => 'x:9f78e0ed210960d7693b167e'],
+            $responseDecode->metadata,
+        );
 
         $this->assertEquals(
             [
@@ -75,6 +80,7 @@ final class ResponseTest extends TestCase {
                 'hostname' => 'localhost.test',
                 'action' => 'login',
                 'cdata' => 'sessionid-123456789',
+                'metadata' => ['ephemeral_id' => 'x:9f78e0ed210960d7693b167e'],
             ],
             $responseDecode->toArray(strict: true),
         );
@@ -95,6 +101,7 @@ final class ResponseTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+                'metadata' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -119,6 +126,7 @@ final class ResponseTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+                'metadata' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -144,6 +152,7 @@ final class ResponseTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+                'metadata' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -196,6 +205,7 @@ final class ResponseTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+                'metadata' => null,
             ],
             $responseDecode->toArray(strict: true),
         );
@@ -221,6 +231,7 @@ final class ResponseTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+                'metadata' => null,
             ],
             $responseDecode->toArray(strict: true),
         );
@@ -246,6 +257,7 @@ final class ResponseTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+                'metadata' => null,
             ],
             $responseDecode->toArray(strict: true),
         );
@@ -271,6 +283,7 @@ final class ResponseTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+                'metadata' => null,
             ],
             $responseDecode->toArray(strict: true),
         );

@@ -13,6 +13,7 @@ use Turnstile\Error\Code as ErrorCode;
 final class Response extends AbstractResponse {
     /**
      * @param array<int, string> $errorCodes
+     * @param array<string, mixed>|null $metadata
      * @param array<string, mixed> $jsonDecode
      */
     public function __construct(
@@ -22,6 +23,7 @@ final class Response extends AbstractResponse {
         public readonly ?string $hostname = null,
         public readonly ?string $action = null,
         public readonly ?string $cdata = null,
+        public readonly ?array $metadata = null,
         protected readonly array $jsonDecode = [],
         protected readonly string $httpBody = '',
     ) {}
@@ -63,6 +65,8 @@ final class Response extends AbstractResponse {
             $action = $jsonDecode['action'] ?? null;
             $cdata = $jsonDecode['cdata'] ?? null;
 
+            $metadata = $jsonDecode['metadata'] ?? null;
+
             return new self(
                 $success,
                 $errorCodes,
@@ -70,6 +74,7 @@ final class Response extends AbstractResponse {
                 $hostname,
                 $action,
                 $cdata,
+                $metadata,
                 $jsonDecode,
                 $httpResponse,
             );

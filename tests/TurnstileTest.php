@@ -87,6 +87,7 @@ final class TurnstileTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+                'metadata' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -125,6 +126,7 @@ final class TurnstileTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+                'metadata' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -153,6 +155,7 @@ final class TurnstileTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+                'metadata' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -164,6 +167,46 @@ final class TurnstileTest extends TestCase {
         );
         $this->assertEquals(
             '{"success": true}',
+            (string) $response,
+        );
+    }
+
+    public function testVerifyMetadata(): void {
+        $response = (new Turnstile(
+            client: $this->getMockHttpClientReturn(
+                '{"success": true, "metadata": {"ephemeral_id": "x:9f78e0ed210960d7693b167e"}}',
+            ),
+            secretKey: 'secret',
+        ))
+        ->verify('token', '127.0.0.1')
+        ;
+
+        $this->assertTrue($response->success);
+        $this->assertEquals(
+            ['ephemeral_id' => 'x:9f78e0ed210960d7693b167e'],
+            $response->metadata,
+        );
+        $this->assertEquals(
+            [
+                'success' => true,
+                'errorCodes' => [],
+                'challengeTs' => null,
+                'hostname' => null,
+                'action' => null,
+                'cdata' => null,
+                'metadata' => ['ephemeral_id' => 'x:9f78e0ed210960d7693b167e'],
+            ],
+            $response->toArray(strict: true),
+        );
+        $this->assertEquals(
+            [
+                'success' => true,
+                'metadata' => ['ephemeral_id' => 'x:9f78e0ed210960d7693b167e'],
+            ],
+            $response->toArray(),
+        );
+        $this->assertEquals(
+            '{"success": true, "metadata": {"ephemeral_id": "x:9f78e0ed210960d7693b167e"}}',
             (string) $response,
         );
     }
@@ -191,6 +234,7 @@ final class TurnstileTest extends TestCase {
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
+                'metadata' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -446,6 +490,7 @@ final class TurnstileTest extends TestCase {
                 'hostname' => 'localhost.test',
                 'action' => 'login',
                 'cdata' => 'sessionid-123456789',
+                'metadata' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -517,6 +562,7 @@ final class TurnstileTest extends TestCase {
                 'hostname' => 'localhost.test',
                 'action' => 'login',
                 'cdata' => 'sessionid-123456789',
+                'metadata' => null,
             ],
             $response->toArray(strict: true),
         );
