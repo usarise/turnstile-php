@@ -24,15 +24,15 @@ final class Client {
 
         if (!$requestFactory instanceof RequestFactoryInterface) {
             throw new InvalidArgumentException(
-                'Argument #1 ($client) or argument #2 ($requestFactory) must be support implement ' .
-                RequestFactoryInterface::class,
+                'Argument #1 ($client) or argument #2 ($requestFactory) must be support implement '
+                 . RequestFactoryInterface::class,
             );
         }
 
         if (!$streamFactory instanceof StreamFactoryInterface) {
             throw new InvalidArgumentException(
-                'Argument #1 ($client) or argument #2 ($requestFactory) or argument #3 ($streamFactory) must be support implement ' .
-                StreamFactoryInterface::class,
+                'Argument #1 ($client) or argument #2 ($requestFactory) or argument #3 ($streamFactory) must be support implement '
+                 . StreamFactoryInterface::class,
             );
         }
 

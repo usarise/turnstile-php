@@ -107,8 +107,8 @@ final class ClientTest extends TestCase {
     public function testBadRequestFactory(): void {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Argument #1 ($client) or argument #2 ($requestFactory) must be support implement ' .
-            RequestFactoryInterface::class,
+            'Argument #1 ($client) or argument #2 ($requestFactory) must be support implement '
+             . RequestFactoryInterface::class,
         );
 
         new Client(
@@ -121,8 +121,8 @@ final class ClientTest extends TestCase {
     public function testBadStreamFactory(): void {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Argument #1 ($client) or argument #2 ($requestFactory) or argument #3 ($streamFactory) must be support implement ' .
-            StreamFactoryInterface::class,
+            'Argument #1 ($client) or argument #2 ($requestFactory) or argument #3 ($streamFactory) must be support implement '
+             . StreamFactoryInterface::class,
         );
 
         new Client(
