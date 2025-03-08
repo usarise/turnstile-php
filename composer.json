@@ -29,7 +29,7 @@
         "nyholm/psr7": "^1.8.1",
         "phpstan/phpstan": "^1.11.7",
         "phpunit/phpunit": "^10.5.27",
-        "rector/rector": "^1.2.0",
+        "rector/rector": "^1.2.1",
         "symfony/http-client": "^6.4.9"
     },
     "autoload": {
