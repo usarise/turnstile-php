@@ -13,7 +13,7 @@ final class Description {
      */
     public const TEXTS = [
         'missing-input-secret' => 'The secret parameter was not passed',
-        'invalid-input-secret' => 'The secret parameter was invalid or did not exist',
+        'invalid-input-secret' => 'The secret parameter was invalid, did not exist, or is a testing secret key with a non-testing response',
         'missing-input-response' => 'The response parameter (token) was not passed',
         'invalid-input-response' => 'The response parameter (token) is invalid or has expired. Most of the time, this means a fake token has been used. If the error persists, contact customer support',
         'bad-request' => 'The request was rejected because it was malformed',
