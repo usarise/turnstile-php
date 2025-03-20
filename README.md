@@ -1,7 +1,7 @@
 # Turnstile PHP client library
 
-[![PHP Version](https://img.shields.io/packagist/dependency-v/usarise/turnstile/php.svg?colorB=%238892BF&style=flat-square&logo=php&logoColor=fff)](https://php.net)
 [![Latest Version](https://img.shields.io/github/v/release/usarise/turnstile-php.svg?style=flat-square&logo=semver)](https://github.com/usarise/turnstile-php/releases)
+[![PHP Version](https://img.shields.io/packagist/dependency-v/usarise/turnstile/php.svg?colorB=%238892BF&style=flat-square&logo=php&logoColor=fff)](https://php.net)
 [![License](https://img.shields.io/github/license/usarise/turnstile-php?style=flat-square&colorB=darkcyan&logo=unlicense&logoColor=fff)](LICENSE)
 [![Total Downloads](https://img.shields.io/packagist/dt/usarise/turnstile.svg?style=flat-square&logo=packagist&logoColor=fff)](https://packagist.org/packages/usarise/turnstile)
 [![GitHub CI](https://img.shields.io/github/actions/workflow/status/usarise/turnstile-php/ci.yml?style=flat-square&logo=github&label=GitHub%20CI)](https://github.com/usarise/turnstile-php/actions/workflows/ci.yml)
