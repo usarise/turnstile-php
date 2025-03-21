@@ -25,9 +25,9 @@
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.45.0",
-        "friendsofphp/php-cs-fixer": "^3.71.0",
+        "friendsofphp/php-cs-fixer": "^3.73.1",
         "nyholm/psr7": "^1.8.2",
-        "phpstan/phpstan": "^2.1.7",
+        "phpstan/phpstan": "^2.1.8",
         "phpunit/phpunit": "^10.5.45",
         "rector/rector": "^2.0.10",
         "symfony/http-client": "^6.4.19"
