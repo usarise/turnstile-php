@@ -21,6 +21,7 @@ final class ResponseTest extends TestCase {
         $this->assertNull($responseDecode->challengeTs);
         $this->assertNull($responseDecode->action);
         $this->assertNull($responseDecode->cdata);
+        $this->assertNull($responseDecode->metadata);
 
         $this->assertEquals(
             [
