@@ -69,7 +69,12 @@ if ($token = $_POST['cf-turnstile-response'] ?? null) {
     } else {
         $errors = $response->errorCodes;
         var_dump($errors);
-        var_dump(Code::toDescription($errors));
+
+        if ($messages = $response->messages) {
+            var_dump($messages);
+        } else {
+            var_dump(Code::toDescription($errors));
+        }
     }
 
     exit;
