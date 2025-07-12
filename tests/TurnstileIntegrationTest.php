@@ -130,6 +130,7 @@ final class TurnstileIntegrationTest extends TestCase {
                 'metadata' => [
                     'result_with_testing_key' => true,
                 ],
+                'messages' => [],
             ],
             $response->toArray(strict: true),
         );

@@ -88,6 +88,7 @@ final class TurnstileTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
+                'messages' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -127,6 +128,7 @@ final class TurnstileTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
+                'messages' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -156,6 +158,7 @@ final class TurnstileTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
+                'messages' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -195,6 +198,7 @@ final class TurnstileTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => ['ephemeral_id' => 'x:9f78e0ed210960d7693b167e'],
+                'messages' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -214,7 +218,7 @@ final class TurnstileTest extends TestCase {
     public function testError(): void {
         $response = (new Turnstile(
             client: $this->getMockHttpClientReturn(
-                '{"success": false, "error-codes": ["test-error"]}',
+                '{"error-codes":["test-error"], "success": false, "messages": []}',
             ),
             secretKey: 'secret',
         ))
@@ -227,6 +231,10 @@ final class TurnstileTest extends TestCase {
             $response->errorCodes,
         );
         $this->assertEquals(
+            [],
+            $response->messages,
+        );
+        $this->assertEquals(
             [
                 'success' => false,
                 'errorCodes' => ['test-error'],
@@ -235,6 +243,7 @@ final class TurnstileTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
+                'messages' => [],
             ],
             $response->toArray(strict: true),
         );
@@ -242,11 +251,58 @@ final class TurnstileTest extends TestCase {
             [
                 'success' => false,
                 'error-codes' => ['test-error'],
+                'messages' => [],
             ],
             $response->toArray(),
         );
         $this->assertEquals(
-            '{"success": false, "error-codes": ["test-error"]}',
+            '{"error-codes":["test-error"], "success": false, "messages": []}',
+            (string) $response,
+        );
+    }
+
+    public function testErrorMessages(): void {
+        $response = (new Turnstile(
+            client: $this->getMockHttpClientReturn(
+                '{"error-codes":["test-error"], "success": false, "messages": ["Test error."]}',
+            ),
+            secretKey: 'secret',
+        ))
+        ->verify('token')
+        ;
+
+        $this->assertFalse($response->success);
+        $this->assertEquals(
+            ['test-error'],
+            $response->errorCodes,
+        );
+        $this->assertEquals(
+            ['Test error.'],
+            $response->messages,
+        );
+        $this->assertEquals(
+            [
+                'success' => false,
+                'errorCodes' => ['test-error'],
+                'challengeTs' => null,
+                'hostname' => null,
+                'action' => null,
+                'cdata' => null,
+                'metadata' => null,
+                'messages' => ['Test error.'],
+            ],
+            $response->toArray(strict: true),
+        );
+        $this->assertEquals(
+            [
+                'success' => false,
+                'error-codes' => ['test-error'],
+                'messages' => ['Test error.'],
+            ],
+            $response->toArray(),
+        );
+        $this->assertEquals(
+            '{"error-codes":["test-error"], "success": false, "messages": ["Test error."]}',
             (string) $response,
         );
     }
@@ -491,6 +547,7 @@ final class TurnstileTest extends TestCase {
                 'action' => 'login',
                 'cdata' => 'sessionid-123456789',
                 'metadata' => null,
+                'messages' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -563,6 +620,7 @@ final class TurnstileTest extends TestCase {
                 'action' => 'login',
                 'cdata' => 'sessionid-123456789',
                 'metadata' => null,
+                'messages' => null,
             ],
             $response->toArray(strict: true),
         );

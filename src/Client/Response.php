@@ -14,6 +14,7 @@ final class Response extends AbstractResponse {
     /**
      * @param array<int, string> $errorCodes
      * @param array<string, mixed>|null $metadata
+     * @param array<int, string> $messages
      * @param array<string, mixed> $jsonDecode
      */
     public function __construct(
@@ -24,6 +25,7 @@ final class Response extends AbstractResponse {
         public readonly ?string $action = null,
         public readonly ?string $cdata = null,
         public readonly ?array $metadata = null,
+        public readonly ?array $messages = null,
         protected readonly array $jsonDecode = [],
         protected readonly string $httpBody = '',
     ) {}
@@ -66,6 +68,7 @@ final class Response extends AbstractResponse {
             $cdata = $jsonDecode['cdata'] ?? null;
 
             $metadata = $jsonDecode['metadata'] ?? null;
+            $messages = $jsonDecode['messages'] ?? null;
 
             return new self(
                 $success,
@@ -75,6 +78,7 @@ final class Response extends AbstractResponse {
                 $action,
                 $cdata,
                 $metadata,
+                $messages,
                 $jsonDecode,
                 $httpResponse,
             );

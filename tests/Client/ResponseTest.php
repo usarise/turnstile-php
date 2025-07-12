@@ -22,6 +22,7 @@ final class ResponseTest extends TestCase {
         $this->assertNull($responseDecode->action);
         $this->assertNull($responseDecode->cdata);
         $this->assertNull($responseDecode->metadata);
+        $this->assertNull($responseDecode->messages);
 
         $this->assertEquals(
             [
@@ -32,6 +33,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
+                'messages' => null,
             ],
             $responseDecode->toArray(strict: true),
         );
@@ -43,13 +45,17 @@ final class ResponseTest extends TestCase {
 
     public function testDecodeFull(): void {
         $challengeTs = gmdate('Y-m-d\TH:i:s.vp');
-        $httpResponse = '{"success": false, "error-codes": ["test-error"], "hostname": "localhost.test", "challenge_ts": "' . $challengeTs . '", "action": "login", "cdata": "sessionid-123456789", "metadata": {"ephemeral_id": "x:9f78e0ed210960d7693b167e"}}';
+        $httpResponse = '{"success": false, "error-codes": ["test-error"], "messages":["Test error."], "hostname": "localhost.test", "challenge_ts": "' . $challengeTs . '", "action": "login", "cdata": "sessionid-123456789", "metadata": {"ephemeral_id": "x:9f78e0ed210960d7693b167e"}}';
         $responseDecode = Response::decode($httpResponse);
 
         $this->assertFalse($responseDecode->success);
         $this->assertEquals(
             ['test-error'],
             $responseDecode->errorCodes,
+        );
+        $this->assertEquals(
+            ['Test error.'],
+            $responseDecode->messages,
         );
 
         $this->assertEquals(
@@ -77,6 +83,7 @@ final class ResponseTest extends TestCase {
             [
                 'success' => false,
                 'errorCodes' => ['test-error'],
+                'messages' => ['Test error.'],
                 'challengeTs' => $challengeTs,
                 'hostname' => 'localhost.test',
                 'action' => 'login',
@@ -103,6 +110,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
+                'messages' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -128,6 +136,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
+                'messages' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -154,6 +163,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
+                'messages' => null,
             ],
             $response->toArray(strict: true),
         );
@@ -207,6 +217,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
+                'messages' => null,
             ],
             $responseDecode->toArray(strict: true),
         );
@@ -233,6 +244,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
+                'messages' => null,
             ],
             $responseDecode->toArray(strict: true),
         );
@@ -259,6 +271,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
+                'messages' => null,
             ],
             $responseDecode->toArray(strict: true),
         );
@@ -285,6 +298,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
+                'messages' => null,
             ],
             $responseDecode->toArray(strict: true),
         );

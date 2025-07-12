@@ -396,6 +396,10 @@ $response->cdata
 ```php
 $response->metadata
 ```
+#### Messages
+```php
+$response->messages
+```
 #### To string
 String with raw json data
 ```php
@@ -408,7 +412,7 @@ $response->toArray()
 ```
 #### Object to array
 Array of processed json data based on properties of `Response` class:
-`success`, `errorCodes`, `challengeTs`, `hostname`, `action`, `cdata`, `metadata`
+`success`, `errorCodes`, `challengeTs`, `hostname`, `action`, `cdata`, `metadata`, `messages`
 ```php
 $response->toArray(strict: true)
 ```
