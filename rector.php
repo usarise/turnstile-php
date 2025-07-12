@@ -22,8 +22,8 @@ return RectorConfig::configure()
         codingStyle: true,
         typeDeclarations: true,
         privatization: true,
-        earlyReturn: true,
         instanceOf: true,
+        earlyReturn: true,
     )
     ->withAttributesSets(
         phpunit: true,
