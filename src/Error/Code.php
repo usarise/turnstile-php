@@ -55,7 +55,7 @@ final class Code {
      */
     public static function toDescription(array $codes, array $descriptions = Description::TEXTS): array {
         return array_map(
-            static fn($code): string => $descriptions[$code] ?? $code,
+            static fn(string $code): string => $descriptions[$code] ?? $code,
             $codes,
         );
     }
