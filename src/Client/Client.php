@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Turnstile\Client;
 
 use Psr\Http\Client\ClientInterface as PsrHttpClientInterface;
-use Psr\Http\Message\{RequestFactoryInterface, RequestInterface, StreamFactoryInterface};
+use Psr\Http\Message\{RequestFactoryInterface, RequestInterface, ResponseInterface, StreamFactoryInterface};
 use Turnstile\Client\Abstract\RequestParameters as AbstractRequestParameters;
 use Turnstile\Exception\InvalidArgumentException;
 use Turnstile\TurnstileInterface;
@@ -56,13 +56,11 @@ final class Client {
         ;
     }
 
-    public function sendRequest(AbstractRequestParameters $requestParameters): string {
-        return (string) $this->client->sendRequest(
+    public function sendRequest(AbstractRequestParameters $requestParameters): ResponseInterface {
+        return $this->client->sendRequest(
             $this->createRequest(
                 $requestParameters,
             ),
-        )
-        ->getBody()
-        ;
+        );
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Turnstile\Client\Abstract;
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * @api
  */
@@ -12,11 +14,12 @@ abstract class Response implements \Stringable {
      * @param array<string, mixed> $jsonDecode
      */
     public function __construct(
+        public readonly ?ResponseInterface $httpResponse = null,
         protected readonly array $jsonDecode = [],
         protected readonly string $httpBody = '',
     ) {}
 
-    abstract public static function decode(string $httpResponse): static;
+    abstract public static function decode(ResponseInterface $httpResponse): static;
 
     /**
      * @return array<string, mixed>
@@ -25,7 +28,7 @@ abstract class Response implements \Stringable {
         return match ($strict) {
             true => \array_slice(
                 array: get_object_vars($this),
-                offset: 2,
+                offset: 3,
             ),
             default => $this->jsonDecode,
         };

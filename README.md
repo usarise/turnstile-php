@@ -405,6 +405,11 @@ $response->metadata
 ```php
 $response->messages
 ```
+#### Http Response
+Any implementation `Psr\Http\Message\ResponseInterface`
+```php
+$response->httpResponse
+```
 #### To string
 String with raw json data
 ```php

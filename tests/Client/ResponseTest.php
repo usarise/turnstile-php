@@ -4,12 +4,20 @@ declare(strict_types=1);
 
 namespace TurnstileTests\Client;
 
+use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use Turnstile\Client\Response;
 
 final class ResponseTest extends TestCase {
     public function testDecodeSimple(): void {
-        $responseDecode = Response::decode('{"success": true}');
+        $createResponse = $this->createResponse(
+            '{"success": true}',
+        );
+
+        $responseDecode = Response::decode(
+            $createResponse,
+        );
 
         $this->assertTrue($responseDecode->success);
         $this->assertEquals(
@@ -24,6 +32,23 @@ final class ResponseTest extends TestCase {
         $this->assertNull($responseDecode->metadata);
         $this->assertNull($responseDecode->messages);
 
+        $this->assertInstanceOf(
+            ResponseInterface::class,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            $createResponse,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            200,
+            $responseDecode->httpResponse->getStatusCode(),
+        );
+
+        $this->assertEquals(
+            ['success' => true],
+            $responseDecode->toArray(),
+        );
         $this->assertEquals(
             [
                 'success' => true,
@@ -46,7 +71,15 @@ final class ResponseTest extends TestCase {
     public function testDecodeFull(): void {
         $challengeTs = gmdate('Y-m-d\TH:i:s.vp');
         $httpResponse = '{"success": false, "error-codes": ["test-error"], "messages":["Test error."], "hostname": "localhost.test", "challenge_ts": "' . $challengeTs . '", "action": "login", "cdata": "sessionid-123456789", "metadata": {"ephemeral_id": "x:9f78e0ed210960d7693b167e"}}';
-        $responseDecode = Response::decode($httpResponse);
+
+        $createResponse = $this->createResponse(
+            $httpResponse,
+            400,
+        );
+
+        $responseDecode = Response::decode(
+            $createResponse,
+        );
 
         $this->assertFalse($responseDecode->success);
         $this->assertEquals(
@@ -79,6 +112,32 @@ final class ResponseTest extends TestCase {
             $responseDecode->metadata,
         );
 
+        $this->assertInstanceOf(
+            ResponseInterface::class,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            $createResponse,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            400,
+            $responseDecode->httpResponse->getStatusCode(),
+        );
+
+        $this->assertEquals(
+            [
+                'success' => false,
+                'messages' => ['Test error.'],
+                'hostname' => 'localhost.test',
+                'action' => 'login',
+                'cdata' => 'sessionid-123456789',
+                'metadata' => ['ephemeral_id' => 'x:9f78e0ed210960d7693b167e'],
+                'error-codes' => ['test-error'],
+                'challenge_ts' => $challengeTs,
+            ],
+            $responseDecode->toArray(),
+        );
         $this->assertEquals(
             [
                 'success' => false,
@@ -200,7 +259,13 @@ final class ResponseTest extends TestCase {
     }
 
     public function testDecodeUnknownErrorFalse(): void {
-        $responseDecode = Response::decode('null');
+        $createResponse = $this->createResponse(
+            'null',
+        );
+
+        $responseDecode = Response::decode(
+            $createResponse,
+        );
 
         $this->assertFalse($responseDecode->success);
         $this->assertEquals(
@@ -208,6 +273,23 @@ final class ResponseTest extends TestCase {
             $responseDecode->errorCodes,
         );
 
+        $this->assertInstanceOf(
+            ResponseInterface::class,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            $createResponse,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            200,
+            $responseDecode->httpResponse->getStatusCode(),
+        );
+
+        $this->assertEquals(
+            [],
+            $responseDecode->toArray(),
+        );
         $this->assertEquals(
             [
                 'success' => false,
@@ -228,12 +310,36 @@ final class ResponseTest extends TestCase {
     }
 
     public function testDecodeUnknownErrorNotArray(): void {
-        $responseDecode = Response::decode('true');
+        $createResponse = $this->createResponse(
+            'true',
+        );
+
+        $responseDecode = Response::decode(
+            $createResponse,
+        );
 
         $this->assertFalse($responseDecode->success);
         $this->assertEquals(
             ['unknown-error'],
             $responseDecode->errorCodes,
+        );
+
+        $this->assertInstanceOf(
+            ResponseInterface::class,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            $createResponse,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            200,
+            $responseDecode->httpResponse->getStatusCode(),
+        );
+
+        $this->assertEquals(
+            [],
+            $responseDecode->toArray(),
         );
         $this->assertEquals(
             [
@@ -255,12 +361,36 @@ final class ResponseTest extends TestCase {
     }
 
     public function testDecodeUnknownError(): void {
-        $responseDecode = Response::decode('{"test": true}');
+        $createResponse = $this->createResponse(
+            '{"test": true}',
+        );
+
+        $responseDecode = Response::decode(
+            $createResponse,
+        );
 
         $this->assertFalse($responseDecode->success);
         $this->assertEquals(
             ['unknown-error'],
             $responseDecode->errorCodes,
+        );
+
+        $this->assertInstanceOf(
+            ResponseInterface::class,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            $createResponse,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            200,
+            $responseDecode->httpResponse->getStatusCode(),
+        );
+
+        $this->assertEquals(
+            ['test' => true],
+            $responseDecode->toArray(),
         );
         $this->assertEquals(
             [
@@ -282,7 +412,14 @@ final class ResponseTest extends TestCase {
     }
 
     public function testDecodeInvalidJson(): void {
-        $responseDecode = Response::decode('invalid');
+        $createResponse = $this->createResponse(
+            'invalid',
+            500,
+        );
+
+        $responseDecode = Response::decode(
+            $createResponse,
+        );
 
         $this->assertFalse($responseDecode->success);
         $this->assertEquals(
@@ -291,6 +428,24 @@ final class ResponseTest extends TestCase {
                 'unknown-error',
             ],
             $responseDecode->errorCodes,
+        );
+
+        $this->assertInstanceOf(
+            ResponseInterface::class,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            $createResponse,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            500,
+            $responseDecode->httpResponse->getStatusCode(),
+        );
+
+        $this->assertEquals(
+            [],
+            $responseDecode->toArray(),
         );
         $this->assertEquals(
             [
@@ -311,6 +466,16 @@ final class ResponseTest extends TestCase {
         $this->assertEquals(
             'invalid',
             (string) $responseDecode,
+        );
+    }
+
+    private function createResponse(string $httpBody, int $statusCode = 200): ResponseInterface {
+        $psr17Factory = new Psr17Factory();
+
+        return $psr17Factory->createResponse($statusCode)->withBody(
+            $psr17Factory->createStream(
+                $httpBody,
+            ),
         );
     }
 }

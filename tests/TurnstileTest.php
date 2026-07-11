@@ -7,6 +7,7 @@ namespace TurnstileTests;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 use Turnstile\Client\Client;
 use Turnstile\Exception\InvalidArgumentException;
 use Turnstile\{Turnstile, TurnstileInterface};
@@ -212,6 +213,30 @@ final class TurnstileTest extends TestCase {
         $this->assertEquals(
             '{"success": true, "metadata": {"ephemeral_id": "x:9f78e0ed210960d7693b167e"}}',
             (string) $response,
+        );
+    }
+
+    public function testHttpResponse(): void {
+        $response = (new Turnstile(
+            client: $this->getMockHttpClientReturn(
+                '{"success": true}',
+            ),
+            secretKey: 'secret',
+        ))
+        ->verify('token', '127.0.0.1')
+        ;
+
+        $this->assertInstanceOf(
+            ResponseInterface::class,
+            $response->httpResponse,
+        );
+        $this->assertEquals(
+            (string) $response,
+            (string) $response->httpResponse->getBody(),
+        );
+        $this->assertEquals(
+            200,
+            $response->httpResponse->getStatusCode(),
         );
     }
 

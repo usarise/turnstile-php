@@ -7,7 +7,7 @@ namespace TurnstileTests\Client;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\{RequestFactoryInterface, StreamFactoryInterface};
+use Psr\Http\Message\{RequestFactoryInterface, ResponseInterface, StreamFactoryInterface, StreamInterface};
 use Turnstile\Client\{Client, RequestParameters};
 use Turnstile\Exception\InvalidArgumentException;
 use Turnstile\TurnstileInterface;
@@ -169,11 +169,22 @@ final class ClientTest extends TestCase {
     }
 
     public function testSendRequest(): void {
-        $client = $this->getMockHttpClientReturn(
-            '{"success": true}',
+        $psr17Factory = new Psr17Factory();
+        $httpBody = '{"success": true}';
+
+        $createStream = $psr17Factory->createStream(
+            $httpBody,
         );
 
-        $response = $client->sendRequest(
+        $createResponse = $psr17Factory->createResponse()->withBody(
+            $createStream,
+        );
+
+        $httpClientReturn = $this->getMockHttpClientReturn(
+            $createStream,
+        );
+
+        $response = $httpClientReturn->sendRequest(
             new RequestParameters(
                 'secret',
                 'response',
@@ -181,9 +192,21 @@ final class ClientTest extends TestCase {
             ),
         );
 
-        $this->assertEquals(
-            '{"success": true}',
+        $this->assertInstanceOf(
+            ResponseInterface::class,
             $response,
+        );
+        $this->assertEquals(
+            $createResponse,
+            $response,
+        );
+        $this->assertEquals(
+            $httpBody,
+            (string) $response->getBody(),
+        );
+        $this->assertEquals(
+            200,
+            $response->getStatusCode(),
         );
     }
 
@@ -203,15 +226,13 @@ final class ClientTest extends TestCase {
         );
     }
 
-    private function getMockHttpClientReturn(string $response): Client {
+    private function getMockHttpClientReturn(StreamInterface $stream): Client {
         $mock = $this->createMock(ClientInterface::class);
         $psr17Factory = new Psr17Factory();
 
         $createResponse = $psr17Factory->createResponse(200)
             ->withBody(
-                $psr17Factory->createStream(
-                    $response,
-                ),
+                $stream,
             )
         ;
 

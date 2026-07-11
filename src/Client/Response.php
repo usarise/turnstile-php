@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Turnstile\Client;
 
+use Psr\Http\Message\ResponseInterface;
 use Turnstile\Client\Abstract\Response as AbstractResponse;
 use Turnstile\Error\Code as ErrorCode;
 
@@ -26,14 +27,17 @@ final class Response extends AbstractResponse {
         public readonly ?string $cdata = null,
         public readonly ?array $metadata = null,
         public readonly ?array $messages = null,
+        public readonly ?ResponseInterface $httpResponse = null,
         protected readonly array $jsonDecode = [],
         protected readonly string $httpBody = '',
     ) {}
 
-    public static function decode(string $httpResponse): static {
+    public static function decode(ResponseInterface $httpResponse): static {
+        $httpBody = (string) $httpResponse->getBody();
+
         try {
             $jsonDecode = json_decode(
-                json: $httpResponse,
+                json: $httpBody,
                 associative: true,
                 flags: JSON_PRESERVE_ZERO_FRACTION | JSON_THROW_ON_ERROR,
             );
@@ -42,7 +46,8 @@ final class Response extends AbstractResponse {
                 return new self(
                     success: false,
                     errorCodes: [ErrorCode::UNKNOWN_ERROR],
-                    httpBody: $httpResponse,
+                    httpResponse: $httpResponse,
+                    httpBody: $httpBody,
                 );
             }
 
@@ -50,7 +55,8 @@ final class Response extends AbstractResponse {
                 return new self(
                     success: false,
                     errorCodes: [ErrorCode::UNKNOWN_ERROR],
-                    httpBody: $httpResponse,
+                    httpResponse: $httpResponse,
+                    httpBody: $httpBody,
                 );
             }
 
@@ -79,8 +85,9 @@ final class Response extends AbstractResponse {
                 $cdata,
                 $metadata,
                 $messages,
-                $jsonDecode,
                 $httpResponse,
+                $jsonDecode,
+                $httpBody,
             );
         } catch (\JsonException) {
             return new self(
@@ -89,7 +96,8 @@ final class Response extends AbstractResponse {
                     ErrorCode::INVALID_JSON,
                     ErrorCode::UNKNOWN_ERROR,
                 ],
-                httpBody: $httpResponse,
+                httpResponse: $httpResponse,
+                httpBody: $httpBody,
             );
         }
     }
