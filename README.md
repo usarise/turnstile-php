@@ -53,7 +53,7 @@ use Turnstile\Turnstile;
 $siteKey = '1x00000000000000000000AA'; // Always passes (Dummy Testing)
 $secretKey = '1x0000000000000000000000000000000AA'; // Always passes (Dummy Testing)
 
-if ($token = $_POST['cf-turnstile-response'] ?? null) {
+if ($token = $_POST[Turnstile::RESPONSE_KEY] ?? null) {
     $turnstile = new Turnstile(
         client: new Psr18Client(),
         secretKey: $secretKey,
@@ -349,7 +349,7 @@ if ($response->success) {
 #### Sample
 ```php
 $response = $turnstile->verify(
-    token: $_POST['cf-turnstile-response'], // The response provided by the Turnstile client-side render on your site.
+    token: $_POST[Turnstile::RESPONSE_KEY], // The response provided by the Turnstile client-side render on your site.
 );
 ```
 #### Remote IP
@@ -360,14 +360,14 @@ The `remoteIp` parameter helps to prevent abuse by ensuring the current visitor 
 ##### Basic usage
 ```php
 $response = $turnstile->verify(
-    token: $_POST['cf-turnstile-response'], // The response provided by the Turnstile client-side render on your site.
+    token: $_POST[Turnstile::RESPONSE_KEY], // The response provided by the Turnstile client-side render on your site.
     remoteIp: $_SERVER['REMOTE_ADDR'], // The visitor’s IP address.
 );
 ```
 ##### With usage CloudFlare
 ```php
 $response = $turnstile->verify(
-    token: $_POST['cf-turnstile-response'], // The response provided by the Turnstile client-side render on your site.
+    token: $_POST[Turnstile::RESPONSE_KEY], // The response provided by the Turnstile client-side render on your site.
     remoteIp: $_SERVER['HTTP_CF_CONNECTING_IP'], // The visitor’s IP address.
 );
 ```

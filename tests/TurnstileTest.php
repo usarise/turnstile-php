@@ -26,6 +26,11 @@ final class TurnstileTest extends TestCase {
         );
 
         $this->assertEquals(
+            'cf-turnstile-response',
+            TurnstileInterface::RESPONSE_KEY,
+        );
+
+        $this->assertEquals(
             2048,
             TurnstileInterface::MAX_TOKEN_LENGTH,
         );

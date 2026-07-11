@@ -17,6 +17,11 @@ interface TurnstileInterface {
     public const SITE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
     /**
+     * @var string
+     */
+    public const RESPONSE_KEY = 'cf-turnstile-response';
+
+    /**
      * @var int
      */
     public const MAX_TOKEN_LENGTH = 2048;
