@@ -39,7 +39,7 @@ final class Response extends AbstractResponse {
             $jsonDecode = json_decode(
                 json: $httpBody,
                 associative: true,
-                flags: JSON_PRESERVE_ZERO_FRACTION | JSON_THROW_ON_ERROR,
+                flags: JSON_THROW_ON_ERROR,
             );
 
             if (!$jsonDecode) {
