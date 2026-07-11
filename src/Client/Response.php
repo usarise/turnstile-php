@@ -85,7 +85,10 @@ final class Response extends AbstractResponse {
         } catch (\JsonException) {
             return new self(
                 success: false,
-                errorCodes: [ErrorCode::INVALID_JSON],
+                errorCodes: [
+                    ErrorCode::INVALID_JSON,
+                    ErrorCode::UNKNOWN_ERROR,
+                ],
                 httpBody: $httpResponse,
             );
         }

@@ -286,13 +286,19 @@ final class ResponseTest extends TestCase {
 
         $this->assertFalse($responseDecode->success);
         $this->assertEquals(
-            ['invalid-json'],
+            [
+                'invalid-json',
+                'unknown-error',
+            ],
             $responseDecode->errorCodes,
         );
         $this->assertEquals(
             [
                 'success' => false,
-                'errorCodes' => ['invalid-json'],
+                'errorCodes' => [
+                    'invalid-json',
+                    'unknown-error',
+                ],
                 'challengeTs' => null,
                 'hostname' => null,
                 'action' => null,
