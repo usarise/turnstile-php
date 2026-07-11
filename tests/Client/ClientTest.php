@@ -35,7 +35,7 @@ final class ClientTest extends TestCase {
 
         $this->assertEquals(
             $httpClient,
-            $client->client,
+            $client->httpClient,
         );
 
         $this->assertEquals(
@@ -61,7 +61,7 @@ final class ClientTest extends TestCase {
 
         $this->assertEquals(
             $httpClient,
-            $client->client,
+            $client->httpClient,
         );
 
         $this->assertEquals(
@@ -85,7 +85,7 @@ final class ClientTest extends TestCase {
 
         $this->assertEquals(
             $httpFactory,
-            $client->client,
+            $client->httpClient,
         );
 
         $this->assertEquals(
@@ -107,7 +107,7 @@ final class ClientTest extends TestCase {
     public function testBadRequestFactory(): void {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Argument #1 ($client) or argument #2 ($requestFactory) must be support implement '
+            'Argument #1 ($httpClient) or argument #2 ($requestFactory) must be support implement '
              . RequestFactoryInterface::class,
         );
 
@@ -121,7 +121,7 @@ final class ClientTest extends TestCase {
     public function testBadStreamFactory(): void {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Argument #1 ($client) or argument #2 ($requestFactory) or argument #3 ($streamFactory) must be support implement '
+            'Argument #1 ($httpClient) or argument #2 ($requestFactory) or argument #3 ($streamFactory) must be support implement '
              . StreamFactoryInterface::class,
         );
 

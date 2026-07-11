@@ -140,7 +140,7 @@ use Turnstile\Client\Client;
 use Turnstile\TurnstileInterface;
 
 $client = new Client(
-    client: ..., // implementation Psr\Http\Client\ClientInterface
+    httpClient: ..., // implementation Psr\Http\Client\ClientInterface
     requestFactory: ..., // implementation Psr\Http\Message\RequestFactoryInterface (default: requestFactory = client)
     streamFactory: ..., // implementation Psr\Http\Message\StreamFactoryInterface (default: streamFactory = requestFactory)
     siteVerifyUrl: TurnstileInterface::SITE_VERIFY_URL, // https://challenges.cloudflare.com/turnstile/v0/siteverify (default)
@@ -244,7 +244,7 @@ use Turnstile\Client\Client;
 $psr17Factory = new Psr17Factory();
 
 $client = new Client(
-    client: new CurlClient(
+    httpClient: new CurlClient(
         responseFactory: $psr17Factory,
         streamFactory: $psr17Factory,
     ),
