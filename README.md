@@ -46,7 +46,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Symfony\Component\HttpClient\Psr18Client;
-use Turnstile\Error\Code;
+use Turnstile\Error\Messages;
 use Turnstile\Turnstile;
 
 // Get real API keys at https://dash.cloudflare.com/?to=/:account/turnstile
@@ -65,15 +65,25 @@ if ($token = $_POST['cf-turnstile-response'] ?? null) {
     );
 
     if ($response->success) {
-        echo 'Success!';
+        echo '<h3>Success!</h3>';
     } else {
-        $errors = $response->errorCodes;
-        var_dump($errors);
+        foreach ($response->errorCodes as $key => $code) {
+            if ($key === 0) {
+                echo "<h3>Turnstile errors:</h3>\n\n";
+            }
 
-        if ($messages = $response->messages) {
-            var_dump($messages);
-        } else {
-            var_dump(Code::toDescription($errors));
+            if ($response->messages && $response->messages[$key] ?? null) {
+                $message = ".<br>\n<b>Message:</b> {$messages[$key]}";
+            } else {
+                $message = '.';
+            }
+
+            echo "<b>Code:</b> {$code}<br>\n<b>Error:</b> "
+            . Messages::DESCRIPTION[$code]
+            . ".<br>\n<b>Action:</b> "
+            . Messages::ACTION_REQUIRED[$code]
+            . $message
+            . "<br><br>\n\n";
         }
     }
 
@@ -425,17 +435,4 @@ Array of processed json data based on properties of `Response` class:
 `success`, `errorCodes`, `challengeTs`, `hostname`, `action`, `cdata`, `metadata`, `messages`
 ```php
 $response->toArray(strict: true)
-```
-
-## Usage error codes to description
-Convert error codes to a description in a suitable language (default english)
-```php
-use Turnstile\Error\{Code, Description};
-
-var_dump(
-    Code::toDescription(
-        codes: $response->errorCodes,
-        descriptions: Description::TEXTS, // Default
-    ),
-);
 ```

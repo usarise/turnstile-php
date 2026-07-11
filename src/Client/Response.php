@@ -6,7 +6,7 @@ namespace Turnstile\Client;
 
 use Psr\Http\Message\ResponseInterface;
 use Turnstile\Client\Abstract\Response as AbstractResponse;
-use Turnstile\Error\Code as ErrorCode;
+use Turnstile\Error\Codes as ErrorCode;
 
 /**
  * @api

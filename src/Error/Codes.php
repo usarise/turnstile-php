@@ -7,7 +7,17 @@ namespace Turnstile\Error;
 /**
  * @api
  */
-final class Code {
+final class Codes {
+    /**
+     * @var string
+     */
+    public const MISSING_INPUT_SECRET = 'missing-input-secret';
+
+    /**
+     * @var string
+     */
+    public const INVALID_INPUT_SECRET = 'invalid-input-secret';
+
     /**
      * @var string
      */
@@ -17,6 +27,21 @@ final class Code {
      * @var string
      */
     public const INVALID_INPUT_RESPONSE = 'invalid-input-response';
+
+    /**
+     * @var string
+     */
+    public const BAD_REQUEST = 'bad-request';
+
+    /**
+     * @var string
+     */
+    public const TIMEOUT_OR_DUPLICATE = 'timeout-or-duplicate';
+
+    /**
+     * @var string
+     */
+    public const INTERNAL_ERROR = 'internal-error';
 
     /**
      * @var string
@@ -47,16 +72,4 @@ final class Code {
      * @var string
      */
     public const UNKNOWN_ERROR = 'unknown-error';
-
-    /**
-     * @param array<int, string> $codes
-     * @param array<string, string> $descriptions
-     * @return array<int, string>
-     */
-    public static function toDescription(array $codes, array $descriptions = Description::TEXTS): array {
-        return array_map(
-            static fn(string $code): string => $descriptions[$code] ?? $code,
-            $codes,
-        );
-    }
 }

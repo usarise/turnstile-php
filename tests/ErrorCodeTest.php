@@ -5,114 +5,100 @@ declare(strict_types=1);
 namespace TurnstileTests;
 
 use PHPUnit\Framework\TestCase;
-use Turnstile\Error\Code as ErrorCode;
+use Turnstile\Error\{Codes, Messages};
 
 final class ErrorCodeTest extends TestCase {
-    public function testToDescriptionShort(): void {
+    public function testCodes(): void {
         $this->assertEquals(
-            [
-                'The response parameter (token) was not passed',
-            ],
-            ErrorCode::toDescription(
-                [
-                    'missing-input-response',
-                ],
-            ),
+            'missing-input-secret',
+            Codes::MISSING_INPUT_SECRET,
+        );
+        $this->assertEquals(
+            'invalid-input-secret',
+            Codes::INVALID_INPUT_SECRET,
+        );
+        $this->assertEquals(
+            'missing-input-response',
+            Codes::MISSING_INPUT_RESPONSE,
+        );
+        $this->assertEquals(
+            'invalid-input-response',
+            Codes::INVALID_INPUT_RESPONSE,
+        );
+        $this->assertEquals(
+            'bad-request',
+            Codes::BAD_REQUEST,
+        );
+        $this->assertEquals(
+            'timeout-or-duplicate',
+            Codes::TIMEOUT_OR_DUPLICATE,
+        );
+        $this->assertEquals(
+            'internal-error',
+            Codes::INTERNAL_ERROR,
+        );
+        $this->assertEquals(
+            'challenge-timeout',
+            Codes::CHALLENGE_TIMEOUT,
+        );
+        $this->assertEquals(
+            'hostname-mismatch',
+            Codes::HOSTNAME_MISMATCH,
+        );
+        $this->assertEquals(
+            'action-mismatch',
+            Codes::ACTION_MISMATCH,
+        );
+        $this->assertEquals(
+            'cdata-mismatch',
+            Codes::CDATA_MISMATCH,
+        );
+        $this->assertEquals(
+            'invalid-json',
+            Codes::INVALID_JSON,
+        );
+        $this->assertEquals(
+            'unknown-error',
+            Codes::UNKNOWN_ERROR,
         );
     }
 
-    public function testToDescriptionFull(): void {
+    public function testMessages(): void {
         $this->assertEquals(
             [
-                'The secret parameter was not passed',
-                'The secret parameter was invalid, did not exist, or is a testing secret key with a non-testing response',
-                'The response parameter (token) was not passed',
-                'The response parameter (token) is invalid or has expired. Most of the time, this means a fake token has been used. If the error persists, contact customer support',
-                'The request was rejected because it was malformed',
-                'The response parameter (token) has already been validated before. This means that the token was issued five minutes ago and is no longer valid, or it was already redeemed',
-                'An internal error happened while validating the response. The request can be retried',
-                'Challenge timeout',
-                'Expected hostname did not match',
-                'Expected action did not match',
-                'Expected cdata did not match',
-                'Invalid JSON received',
-                'Not a success, but no error codes received',
+                'missing-input-secret' => 'Secret parameter not provided',
+                'invalid-input-secret' => 'Secret key is invalid or expired',
+                'missing-input-response' => 'Response parameter was not provided',
+                'invalid-input-response' => 'Token is invalid, malformed, or expired',
+                'bad-request' => 'Request is malformed',
+                'timeout-or-duplicate' => 'Token has already been validated',
+                'internal-error' => 'Internal error occurred',
+                'challenge-timeout' => 'Token is expired',
+                'hostname-mismatch' => 'Hostname mismatch',
+                'action-mismatch' => 'Action mismatch',
+                'cdata-mismatch' => 'cData mismatch',
+                'invalid-json' => 'Invalid JSON received',
+                'unknown-error' => 'Not a success, but no error codes received',
             ],
-            ErrorCode::toDescription(
-                [
-                    'missing-input-secret',
-                    'invalid-input-secret',
-                    'missing-input-response',
-                    'invalid-input-response',
-                    'bad-request',
-                    'timeout-or-duplicate',
-                    'internal-error',
-                    'challenge-timeout',
-                    'hostname-mismatch',
-                    'action-mismatch',
-                    'cdata-mismatch',
-                    'invalid-json',
-                    'unknown-error',
-                ],
-            ),
+            Messages::DESCRIPTION,
         );
-    }
-
-    public function testToDescriptionNotValue(): void {
         $this->assertEquals(
             [
-                'test-error',
+                'missing-input-secret' => 'Ensure secret key is included',
+                'invalid-input-secret' => 'Check your secret key in the Cloudflare dashboard',
+                'missing-input-response' => 'Ensure token is included',
+                'invalid-input-response' => 'User should retry the challenge',
+                'bad-request' => 'Check request format and parameters',
+                'timeout-or-duplicate' => 'Each token can only be used once',
+                'internal-error' => 'Retry the request',
+                'challenge-timeout' => 'User should retry the challenge',
+                'hostname-mismatch' => 'Check hostname where the challenge was served',
+                'action-mismatch' => 'Check data-action attribute',
+                'cdata-mismatch' => 'Check data-cdata attribute',
+                'invalid-json' => 'Check network or client configuration',
+                'unknown-error' => 'Check Cloudflare Turnstile endpoint availability or client configuration',
             ],
-            ErrorCode::toDescription(
-                [
-                    'test-error',
-                ],
-            ),
-        );
-
-        $this->assertEquals(
-            [
-                'The response parameter (token) was not passed',
-                'test-error',
-            ],
-            ErrorCode::toDescription(
-                [
-                    ErrorCode::MISSING_INPUT_RESPONSE,
-                    'test-error',
-                ],
-            ),
-        );
-    }
-
-    public function testToDescriptionCustomTexts(): void {
-        $this->assertEquals(
-            [
-                'Test error',
-            ],
-            ErrorCode::toDescription(
-                [
-                    'test-error',
-                ],
-                [
-                    'test-error' => 'Test error',
-                ],
-            ),
-        );
-
-        $this->assertEquals(
-            [
-                'missing-input-response',
-                'Test error',
-            ],
-            ErrorCode::toDescription(
-                [
-                    ErrorCode::MISSING_INPUT_RESPONSE,
-                    'test-error',
-                ],
-                [
-                    'test-error' => 'Test error',
-                ],
-            ),
+            Messages::ACTION_REQUIRED,
         );
     }
 }

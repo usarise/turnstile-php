@@ -6,7 +6,7 @@ namespace Turnstile;
 
 use Psr\Http\Client\ClientInterface as PsrHttpClientInterface;
 use Turnstile\Client\{Client, RequestParameters, Response};
-use Turnstile\Error\Code as ErrorCode;
+use Turnstile\Error\Codes as ErrorCode;
 use Turnstile\Exception\InvalidArgumentException;
 
 /**
