@@ -48,7 +48,7 @@ final class Turnstile implements TurnstileInterface {
             );
         }
 
-        return $this->extendVerify(
+        return $this->enhancedVerify(
             Response::decode(
                 httpResponse: $this->client->sendRequest(
                     new RequestParameters(
@@ -66,7 +66,7 @@ final class Turnstile implements TurnstileInterface {
         );
     }
 
-    private function extendVerify(
+    private function enhancedVerify(
         Response $response,
         ?int $challengeTimeout,
         ?string $expectedHostname,
