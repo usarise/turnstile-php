@@ -95,8 +95,8 @@ final class ErrorCodeTest extends TestCase {
                 'hostname-mismatch' => 'Check hostname where the challenge was served',
                 'action-mismatch' => 'Check data-action attribute',
                 'cdata-mismatch' => 'Check data-cdata attribute',
-                'invalid-json' => 'Check network or client configuration',
-                'unknown-error' => 'Check Cloudflare Turnstile endpoint availability or client configuration',
+                'invalid-json' => 'Check network or Cloudflare Turnstile endpoint',
+                'unknown-error' => 'Check Cloudflare Turnstile endpoint',
             ],
             Messages::ACTION_REQUIRED,
         );

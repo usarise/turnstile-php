@@ -42,7 +42,7 @@ final class Messages {
         Codes::HOSTNAME_MISMATCH => 'Check hostname where the challenge was served',
         Codes::ACTION_MISMATCH => 'Check data-action attribute',
         Codes::CDATA_MISMATCH => 'Check data-cdata attribute',
-        Codes::INVALID_JSON => 'Check network or client configuration',
-        Codes::UNKNOWN_ERROR => 'Check Cloudflare Turnstile endpoint availability or client configuration',
+        Codes::INVALID_JSON => 'Check network or Cloudflare Turnstile endpoint',
+        Codes::UNKNOWN_ERROR => 'Check Cloudflare Turnstile endpoint',
     ];
 }
