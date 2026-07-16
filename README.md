@@ -61,29 +61,38 @@ if ($token = $_POST[Turnstile::RESPONSE_KEY] ?? null) {
 
     $response = $turnstile->verify(
         $token, // The response provided by the Turnstile client-side render on your site.
-        $_SERVER['REMOTE_ADDR'], // With usage CloudFlare: $_SERVER['HTTP_CF_CONNECTING_IP']
+        $_SERVER['HTTP_CF_CONNECTING_IP']
+        ?? $_SERVER['HTTP_X_FORWARDED_FOR']
+        ?? $_SERVER['REMOTE_ADDR'],
     );
 
     if ($response->success) {
-        echo '<h3>Success!</h3>';
+        // Valid token - process form
+        echo 'Form submission successful!';
+        // Process your form data here
     } else {
+        // Invalid token - show error
+        echo 'Verification failed. Please try again.';
+
+        // Logging errors to error_log
         foreach ($response->errorCodes as $key => $code) {
-            if ($key === 0) {
-                echo "<h3>Turnstile errors:</h3>\n\n";
-            }
+            $error = Messages::DESCRIPTION[$code];
+            $action = Messages::ACTION_REQUIRED[$code];
 
             if ($response->messages && $response->messages[$key] ?? null) {
-                $message = ".<br>\n<b>Message:</b> {$messages[$key]}";
+                $message = $response->messages[$key];
             } else {
-                $message = '.';
+                $message = sprintf('%s. %s', $error, $action);
             }
 
-            echo "<b>Code:</b> {$code}<br>\n<b>Error:</b> "
-            . Messages::DESCRIPTION[$code]
-            . ".<br>\n<b>Action:</b> "
-            . Messages::ACTION_REQUIRED[$code]
-            . $message
-            . "<br><br>\n\n";
+            error_log(
+                sprintf(
+                    'Turnstile validation failed #%d: %s: %s',
+                    $key,
+                    $code,
+                    $message,
+                ),
+            );
         }
     }
 
