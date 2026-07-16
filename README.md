@@ -328,7 +328,6 @@ composer require ramsey/uuid
 ##### Usage
 ```php
 use Ramsey\Uuid\Uuid;
-use Turnstile\Client\Client;
 use Turnstile\Turnstile;
 
 $turnstile = new Turnstile(
@@ -352,6 +351,119 @@ $response = $turnstile->verify(
 if ($response->success) {
     // ...
 }
+```
+##### TurnstileExampleIdempotency.php
+Idempotency keys for retry operation
+```php
+<?php
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Ramsey\Uuid\Uuid;
+use Symfony\Component\HttpClient\Psr18Client;
+use Turnstile\Client\Response;
+use Turnstile\Error\{Codes as ErrorCode, Messages};
+use Turnstile\Turnstile;
+
+$siteKey = 'your-site-key';
+$secretKey = 'your-secret-key';
+
+if ($token = $_POST[Turnstile::RESPONSE_KEY] ?? null) {
+    $turnstile = new Turnstile(
+        client: new Psr18Client(),
+        secretKey: $secretKey, // The site’s secret key.
+        idempotencyKey: (string) Uuid::uuid4(), // The UUID to be associated with the response.
+    );
+
+    $response = validateWithRetry(
+        $turnstile,
+        $token,
+    );
+
+    if ($response->success) {
+        // Valid token - process form
+        echo 'Form submission successful!';
+        // Process your form data here
+    } else {
+        // Invalid token - show error
+        echo 'Verification failed. Please try again.';
+
+        // Logging errors to error_log
+        foreach ($response->errorCodes as $key => $code) {
+            $error = Messages::DESCRIPTION[$code];
+            $action = Messages::ACTION_REQUIRED[$code];
+
+            if ($response->messages && $response->messages[$key] ?? null) {
+                $message = $response->messages[$key];
+            } else {
+                $message = sprintf('%s. %s', $error, $action);
+            }
+
+            error_log(
+                sprintf(
+                    'Turnstile validation failed #%d: %s: %s',
+                    $key,
+                    $code,
+                    $message,
+                ),
+            );
+        }
+    }
+
+    exit;
+}
+
+function validateWithRetry(Turnstile $turnstile, string $token, int $maxRetries = 3): Response {
+    for ($attempt = 1; $attempt <= $maxRetries; $attempt++) {
+        try {
+            $result = $turnstile->verify(
+                $token,
+                $_SERVER['HTTP_CF_CONNECTING_IP']
+                ?? $_SERVER['HTTP_X_FORWARDED_FOR']
+                ?? $_SERVER['REMOTE_ADDR'],
+            );
+
+            if ($result->httpResponse->getStatusCode() >= 200 && $result->httpResponse->getStatusCode() < 300) {
+                return $result;
+            }
+
+            // If this is the last attempt, return the error
+            if ($attempt === $maxRetries) {
+                return $result;
+            }
+
+            // Wait before retrying (exponential backoff)
+            sleep(
+                2 ** $attempt,
+            );
+        } catch (Throwable $throwable) {
+            return new Response(
+                success: false,
+                errorCodes: [ErrorCode::INTERNAL_ERROR],
+                messages: [$throwable->getMessage()],
+            );
+        }
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Turnstile example idempotency</title>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+<form action="" method="POST">
+  <!-- The following line controls and configures the Turnstile widget. -->
+  <div class="cf-turnstile" data-sitekey="<?php echo $siteKey; ?>" data-theme="light"></div>
+  <!-- end. -->
+  <button type="submit" value="Submit">Verify</button>
+</form>
+</body>
+</html>
 ```
 
 ## Usage verify
