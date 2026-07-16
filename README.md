@@ -371,7 +371,7 @@ $response = $turnstile->verify(
     remoteIp: $_SERVER['HTTP_CF_CONNECTING_IP'], // The visitor’s IP address.
 );
 ```
-#### Extended
+#### Enhanced
 ```php
 $response = $turnstile->verify(
     ...
