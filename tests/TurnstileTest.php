@@ -607,6 +607,19 @@ final class TurnstileTest extends TestCase {
             $response->cdata,
         );
 
+        $this->assertInstanceOf(
+            ResponseInterface::class,
+            $response->httpResponse,
+        );
+        $this->assertEquals(
+            (string) $response,
+            (string) $response->httpResponse->getBody(),
+        );
+        $this->assertEquals(
+            200,
+            $response->httpResponse->getStatusCode(),
+        );
+
         $this->assertEquals(
             [
                 'success' => false,
@@ -648,6 +661,7 @@ final class TurnstileTest extends TestCase {
         $response = (new Turnstile(
             client: $this->getMockHttpClientReturn(
                 $httpResponse,
+                400,
             ),
             secretKey: 'secret',
         ))
@@ -680,6 +694,19 @@ final class TurnstileTest extends TestCase {
         $this->assertEquals(
             'sessionid-123456789',
             $response->cdata,
+        );
+
+        $this->assertInstanceOf(
+            ResponseInterface::class,
+            $response->httpResponse,
+        );
+        $this->assertEquals(
+            (string) $response,
+            (string) $response->httpResponse->getBody(),
+        );
+        $this->assertEquals(
+            400,
+            $response->httpResponse->getStatusCode(),
         );
 
         $this->assertEquals(
@@ -766,11 +793,11 @@ final class TurnstileTest extends TestCase {
         return $challengeTs->format('Y-m-d\TH:i:s.vp');
     }
 
-    private function getMockHttpClientReturn(string $response): Client {
+    private function getMockHttpClientReturn(string $response, int $statusCode = 200): Client {
         $mock = $this->createMock(ClientInterface::class);
         $psr17Factory = new Psr17Factory();
 
-        $createResponse = $psr17Factory->createResponse(200)
+        $createResponse = $psr17Factory->createResponse($statusCode)
             ->withBody(
                 $psr17Factory->createStream(
                     $response,

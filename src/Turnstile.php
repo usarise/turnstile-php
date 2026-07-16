@@ -117,6 +117,7 @@ final class Turnstile implements TurnstileInterface {
                         array: $response->toArray(strict: true),
                         offset: 2,
                     ),
+                    'httpResponse' => $response->httpResponse,
                     'jsonDecode' => $response->toArray(),
                     'httpBody' => (string) $response,
                 ],
