@@ -423,11 +423,12 @@ final class ResponseTest extends TestCase {
 
         $this->assertFalse($responseDecode->success);
         $this->assertEquals(
-            [
-                'invalid-json',
-                'unknown-error',
-            ],
+            ['invalid-json'],
             $responseDecode->errorCodes,
+        );
+        $this->assertEquals(
+            ['Syntax error'],
+            $responseDecode->messages,
         );
 
         $this->assertInstanceOf(
@@ -452,19 +453,56 @@ final class ResponseTest extends TestCase {
                 'success' => false,
                 'errorCodes' => [
                     'invalid-json',
-                    'unknown-error',
                 ],
                 'challengeTs' => null,
                 'hostname' => null,
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
-                'messages' => null,
+                'messages' => ['Syntax error'],
             ],
             $responseDecode->toArray(strict: true),
         );
         $this->assertEquals(
             'invalid',
+            (string) $responseDecode,
+        );
+    }
+
+    public function testDecodeThrowable(): void {
+        $createResponse = $this->createResponse(
+            '{"success": true, "challenge_ts": 0}',
+        );
+
+        $responseDecode = Response::decode(
+            $createResponse,
+        );
+
+        $this->assertFalse($responseDecode->success);
+        $this->assertEquals(
+            ['unknown-error'],
+            $responseDecode->errorCodes,
+        );
+
+        $this->assertInstanceOf(
+            ResponseInterface::class,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            $createResponse,
+            $responseDecode->httpResponse,
+        );
+        $this->assertEquals(
+            200,
+            $responseDecode->httpResponse->getStatusCode(),
+        );
+
+        $this->assertEquals(
+            [],
+            $responseDecode->toArray(),
+        );
+        $this->assertEquals(
+            '{"success": true, "challenge_ts": 0}',
             (string) $responseDecode,
         );
     }

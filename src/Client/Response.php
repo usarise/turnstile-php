@@ -89,13 +89,19 @@ final class Response extends AbstractResponse {
                 $jsonDecode,
                 $httpBody,
             );
-        } catch (\JsonException) {
+        } catch (\JsonException $jsonException) {
             return new self(
                 success: false,
-                errorCodes: [
-                    ErrorCode::INVALID_JSON,
-                    ErrorCode::UNKNOWN_ERROR,
-                ],
+                errorCodes: [ErrorCode::INVALID_JSON],
+                messages: [$jsonException->getMessage()],
+                httpResponse: $httpResponse,
+                httpBody: $httpBody,
+            );
+        } catch (\Throwable $throwable) {
+            return new self(
+                success: false,
+                errorCodes: [ErrorCode::UNKNOWN_ERROR],
+                messages: [$throwable->getMessage()],
                 httpResponse: $httpResponse,
                 httpBody: $httpBody,
             );
