@@ -26,13 +26,13 @@ return
         ->setCacheFile(__DIR__ . '/var/cache/.php-cs-fixer.dist.cache')
         ->setRiskyAllowed(true)
         ->setRules([
-            '@PHP80Migration:risky' => true,
-            '@PHP81Migration' => true,
+            '@PHP8x0Migration:risky' => true,
+            '@PHP8x1Migration' => true,
             '@PhpCsFixer' => true,
             '@PhpCsFixer:risky' => true,
-            '@PHPUnit100Migration:risky' => true,
-            '@PER-CS3.0' => true,
-            '@PER-CS3.0:risky' => true,
+            '@PHPUnit10x0Migration:risky' => true,
+            '@PER-CS3x0' => true,
+            '@PER-CS3x0:risky' => true,
             'blank_line_before_statement' => [
                 'statements' => [
                     'continue',
