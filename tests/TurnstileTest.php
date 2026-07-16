@@ -8,6 +8,7 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\HttpClient\Psr18Client;
 use Turnstile\Client\Client;
 use Turnstile\Exception\InvalidArgumentException;
 use Turnstile\{Turnstile, TurnstileInterface};
@@ -287,6 +288,49 @@ final class TurnstileTest extends TestCase {
         );
         $this->assertEquals(
             '{"error-codes":["test-error"], "success": false, "messages": []}',
+            (string) $response,
+        );
+    }
+
+    public function testErrorConnection(): void {
+        $response = (new Turnstile(
+            client: new Client(
+                httpClient: new Psr18Client(),
+                siteVerifyUrl: '',
+            ),
+            secretKey: 'secret',
+        ))
+        ->verify('token')
+        ;
+
+        $this->assertFalse($response->success);
+        $this->assertEquals(
+            ['connection-failed'],
+            $response->errorCodes,
+        );
+        $this->assertEquals(
+            ['Invalid URL: scheme is missing in "". Did you forget to add "http(s)://"?'],
+            $response->messages,
+        );
+        $this->assertEquals(
+            [
+                'success' => false,
+                'errorCodes' => ['connection-failed'],
+                'challengeTs' => null,
+                'hostname' => null,
+                'action' => null,
+                'cdata' => null,
+                'metadata' => null,
+                'messages' => ['Invalid URL: scheme is missing in "". Did you forget to add "http(s)://"?'],
+            ],
+            $response->toArray(strict: true),
+        );
+        $this->assertEquals(
+            [],
+            $response->toArray(),
+        );
+        $this->assertEquals(
+            '',
             (string) $response,
         );
     }

@@ -54,6 +54,10 @@ final class ErrorCodeTest extends TestCase {
             Codes::CDATA_MISMATCH,
         );
         $this->assertEquals(
+            'connection-failed',
+            Codes::CONNECTION_FAILED,
+        );
+        $this->assertEquals(
             'invalid-json',
             Codes::INVALID_JSON,
         );
@@ -77,6 +81,7 @@ final class ErrorCodeTest extends TestCase {
                 'hostname-mismatch' => 'Hostname mismatch',
                 'action-mismatch' => 'Action mismatch',
                 'cdata-mismatch' => 'cData mismatch',
+                'connection-failed' => 'Not connect to service',
                 'invalid-json' => 'Invalid JSON received',
                 'unknown-error' => 'Not a success, but no error codes received',
             ],
@@ -95,6 +100,7 @@ final class ErrorCodeTest extends TestCase {
                 'hostname-mismatch' => 'Check hostname where the challenge was served',
                 'action-mismatch' => 'Check data-action attribute',
                 'cdata-mismatch' => 'Check data-cdata attribute',
+                'connection-failed' => 'Check network or Cloudflare Turnstile endpoint availability',
                 'invalid-json' => 'Check network or Cloudflare Turnstile endpoint',
                 'unknown-error' => 'Check Cloudflare Turnstile endpoint',
             ],

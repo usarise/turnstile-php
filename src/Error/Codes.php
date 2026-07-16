@@ -66,6 +66,11 @@ final class Codes {
     /**
      * @var string
      */
+    public const CONNECTION_FAILED = 'connection-failed';
+
+    /**
+     * @var string
+     */
     public const INVALID_JSON = 'invalid-json';
 
     /**

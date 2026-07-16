@@ -48,16 +48,26 @@ final class Turnstile implements TurnstileInterface {
             );
         }
 
+        try {
+            $httpResponse = $this->client->sendRequest(
+                new RequestParameters(
+                    $this->secretKey,
+                    $token,
+                    $remoteIp,
+                    $this->idempotencyKey,
+                ),
+            );
+        } catch (\Throwable $throwable) {
+            return new Response(
+                success: false,
+                errorCodes: [ErrorCode::CONNECTION_FAILED],
+                messages: [$throwable->getMessage()],
+            );
+        }
+
         return $this->enhancedVerify(
             Response::decode(
-                httpResponse: $this->client->sendRequest(
-                    new RequestParameters(
-                        $this->secretKey,
-                        $token,
-                        $remoteIp,
-                        $this->idempotencyKey,
-                    ),
-                ),
+                httpResponse: $httpResponse,
             ),
             $challengeTimeout,
             $expectedHostname,

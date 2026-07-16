@@ -23,6 +23,7 @@ final class Messages {
         Codes::HOSTNAME_MISMATCH => 'Hostname mismatch',
         Codes::ACTION_MISMATCH => 'Action mismatch',
         Codes::CDATA_MISMATCH => 'cData mismatch',
+        Codes::CONNECTION_FAILED => 'Not connect to service',
         Codes::INVALID_JSON => 'Invalid JSON received',
         Codes::UNKNOWN_ERROR => 'Not a success, but no error codes received',
     ];
@@ -42,6 +43,7 @@ final class Messages {
         Codes::HOSTNAME_MISMATCH => 'Check hostname where the challenge was served',
         Codes::ACTION_MISMATCH => 'Check data-action attribute',
         Codes::CDATA_MISMATCH => 'Check data-cdata attribute',
+        Codes::CONNECTION_FAILED => 'Check network or Cloudflare Turnstile endpoint availability',
         Codes::INVALID_JSON => 'Check network or Cloudflare Turnstile endpoint',
         Codes::UNKNOWN_ERROR => 'Check Cloudflare Turnstile endpoint',
     ];
