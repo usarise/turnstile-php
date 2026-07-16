@@ -24,6 +24,8 @@ return RectorConfig::configure()
         privatization: true,
         instanceOf: true,
         earlyReturn: true,
+        phpunitNarrowAsserts: true,
+        phpunitMockToStub: true,
     )
     ->withAttributesSets(
         phpunit: true,
