@@ -7,7 +7,7 @@ namespace TurnstileTests\Client;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\{RequestFactoryInterface, ResponseInterface, StreamFactoryInterface, StreamInterface};
+use Psr\Http\Message\{RequestFactoryInterface, ResponseInterface, StreamFactoryInterface};
 use Turnstile\Client\{Client, RequestParameters};
 use Turnstile\Exception\InvalidArgumentException;
 use Turnstile\TurnstileInterface;
@@ -20,11 +20,11 @@ final class ClientTest extends TestCase {
     private const SITE_VERIFY_URL = 'https://localhost.test/turnstile/siteverify';
 
     public function testConstruct(): void {
-        $httpClient = $this->createMock(ClientInterface::class);
+        $httpClient = $this->createStub(ClientInterface::class);
 
-        $requestFactory = $this->createMock(RequestFactoryInterface::class);
-        $streamFactory = $this->createMock(StreamFactoryInterface::class);
-        $httpFactory = $this->createMock(HttpFactoryInterface::class);
+        $requestFactory = $this->createStub(RequestFactoryInterface::class);
+        $streamFactory = $this->createStub(StreamFactoryInterface::class);
+        $httpFactory = $this->createStub(HttpFactoryInterface::class);
 
         $client = new Client(
             $httpClient,
@@ -33,22 +33,22 @@ final class ClientTest extends TestCase {
             self::SITE_VERIFY_URL,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $httpClient,
             $client->httpClient,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $requestFactory,
             $client->requestFactory,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $streamFactory,
             $client->streamFactory,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             self::SITE_VERIFY_URL,
             $client->siteVerifyUrl,
         );
@@ -59,22 +59,22 @@ final class ClientTest extends TestCase {
             $psr17Factory,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $httpClient,
             $client->httpClient,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $psr17Factory,
             $client->requestFactory,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $psr17Factory,
             $client->streamFactory,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             TurnstileInterface::SITE_VERIFY_URL,
             $client->siteVerifyUrl,
         );
@@ -83,22 +83,22 @@ final class ClientTest extends TestCase {
             $httpFactory,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $httpFactory,
             $client->httpClient,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $httpFactory,
             $client->requestFactory,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $httpFactory,
             $client->streamFactory,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             TurnstileInterface::SITE_VERIFY_URL,
             $client->siteVerifyUrl,
         );
@@ -112,7 +112,7 @@ final class ClientTest extends TestCase {
         );
 
         new Client(
-            $this->createMock(
+            $this->createStub(
                 ClientInterface::class,
             ),
         );
@@ -126,10 +126,10 @@ final class ClientTest extends TestCase {
         );
 
         new Client(
-            $this->createMock(
+            $this->createStub(
                 ClientInterface::class,
             ),
-            $this->createMock(
+            $this->createStub(
                 RequestFactoryInterface::class,
             ),
         );
@@ -144,17 +144,17 @@ final class ClientTest extends TestCase {
 
         $createRequest = $this->getMockHttpClient()->createRequest($requestParams);
 
-        $this->assertEquals(
+        $this->assertSame(
             'POST',
             $createRequest->getMethod(),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             TurnstileInterface::SITE_VERIFY_URL,
             (string) $createRequest->getUri(),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'Host' => ['challenges.cloudflare.com'],
                 'Content-Type' => ['application/x-www-form-urlencoded'],
@@ -162,27 +162,15 @@ final class ClientTest extends TestCase {
             $createRequest->getHeaders(),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             (string) $requestParams,
             (string) $createRequest->getBody(),
         );
     }
 
     public function testSendRequest(): void {
-        $psr17Factory = new Psr17Factory();
         $httpBody = '{"success": true}';
-
-        $createStream = $psr17Factory->createStream(
-            $httpBody,
-        );
-
-        $createResponse = $psr17Factory->createResponse()->withBody(
-            $createStream,
-        );
-
-        $httpClientReturn = $this->getMockHttpClientReturn(
-            $createStream,
-        );
+        $httpClientReturn = $this->getMockHttpClientReturn($httpBody);
 
         $response = $httpClientReturn->sendRequest(
             new RequestParameters(
@@ -196,53 +184,51 @@ final class ClientTest extends TestCase {
             ResponseInterface::class,
             $response,
         );
-        $this->assertEquals(
-            $createResponse,
-            $response,
-        );
-        $this->assertEquals(
+        $this->assertSame(
             $httpBody,
             (string) $response->getBody(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             200,
             $response->getStatusCode(),
         );
     }
 
     private function getMockHttpClient(): Client {
-        $mock = $this->createMock(ClientInterface::class);
+        $stub = $this->createStub(ClientInterface::class);
         $psr17Factory = new Psr17Factory();
 
-        $mock->expects($this->any())
+        $stub
             ->method('sendRequest')
             ->willReturn($psr17Factory->createResponse())
         ;
 
         return new Client(
-            $mock,
+            $stub,
             $psr17Factory,
             $psr17Factory,
         );
     }
 
-    private function getMockHttpClientReturn(StreamInterface $stream): Client {
-        $mock = $this->createMock(ClientInterface::class);
+    private function getMockHttpClientReturn(string $httpBody): Client {
+        $stub = $this->createStub(ClientInterface::class);
         $psr17Factory = new Psr17Factory();
 
         $createResponse = $psr17Factory->createResponse(200)
             ->withBody(
-                $stream,
+                $psr17Factory->createStream(
+                    $httpBody,
+                ),
             )
         ;
 
-        $mock->expects($this->any())
+        $stub
             ->method('sendRequest')
             ->willReturn($createResponse)
         ;
 
         return new Client(
-            $mock,
+            $stub,
             $psr17Factory,
             $psr17Factory,
         );

@@ -21,17 +21,17 @@ final class TurnstileTest extends TestCase {
      * @see https://developers.cloudflare.com/turnstile/get-started/server-side-validation/
      */
     public function testInterfaceConstantValue(): void {
-        $this->assertEquals(
+        $this->assertSame(
             'https://challenges.cloudflare.com/turnstile/v0/siteverify',
             TurnstileInterface::SITE_VERIFY_URL,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'cf-turnstile-response',
             TurnstileInterface::RESPONSE_KEY,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             2048,
             TurnstileInterface::MAX_TOKEN_LENGTH,
         );
@@ -43,7 +43,7 @@ final class TurnstileTest extends TestCase {
 
         new Turnstile(
             new Client(
-                $this->createMock(
+                $this->createStub(
                     HttpFactoryInterface::class,
                 ),
             ),
@@ -56,7 +56,7 @@ final class TurnstileTest extends TestCase {
             TurnstileInterface::class,
             new Turnstile(
                 new Client(
-                    $this->createMock(
+                    $this->createStub(
                         HttpFactoryInterface::class,
                     ),
                 ),
@@ -67,7 +67,7 @@ final class TurnstileTest extends TestCase {
         $this->assertInstanceOf(
             TurnstileInterface::class,
             new Turnstile(
-                $this->createMock(
+                $this->createStub(
                     HttpFactoryInterface::class,
                 ),
                 'secret',
@@ -86,7 +86,7 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertTrue($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => true,
                 'errorCodes' => [],
@@ -99,13 +99,13 @@ final class TurnstileTest extends TestCase {
             ],
             $response->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => true,
             ],
             $response->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             '{"success": true}',
             (string) $response,
         );
@@ -126,7 +126,7 @@ final class TurnstileTest extends TestCase {
         );
 
         $this->assertTrue($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => true,
                 'errorCodes' => [],
@@ -139,13 +139,13 @@ final class TurnstileTest extends TestCase {
             ],
             $response->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => true,
             ],
             $response->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             '{"success": true}',
             (string) $response,
         );
@@ -156,7 +156,7 @@ final class TurnstileTest extends TestCase {
         );
 
         $this->assertTrue($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => true,
                 'errorCodes' => [],
@@ -169,13 +169,13 @@ final class TurnstileTest extends TestCase {
             ],
             $response->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => true,
             ],
             $response->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             '{"success": true}',
             (string) $response,
         );
@@ -192,11 +192,11 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertTrue($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['ephemeral_id' => 'x:9f78e0ed210960d7693b167e'],
             $response->metadata,
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => true,
                 'errorCodes' => [],
@@ -209,14 +209,14 @@ final class TurnstileTest extends TestCase {
             ],
             $response->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => true,
                 'metadata' => ['ephemeral_id' => 'x:9f78e0ed210960d7693b167e'],
             ],
             $response->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             '{"success": true, "metadata": {"ephemeral_id": "x:9f78e0ed210960d7693b167e"}}',
             (string) $response,
         );
@@ -236,11 +236,11 @@ final class TurnstileTest extends TestCase {
             ResponseInterface::class,
             $response->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             (string) $response,
             (string) $response->httpResponse->getBody(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             200,
             $response->httpResponse->getStatusCode(),
         );
@@ -257,15 +257,15 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['test-error'],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $response->messages,
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
                 'errorCodes' => ['test-error'],
@@ -278,15 +278,15 @@ final class TurnstileTest extends TestCase {
             ],
             $response->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
-                'success' => false,
                 'error-codes' => ['test-error'],
+                'success' => false,
                 'messages' => [],
             ],
             $response->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             '{"error-codes":["test-error"], "success": false, "messages": []}',
             (string) $response,
         );
@@ -304,15 +304,15 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['connection-failed'],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             ['Invalid URL: scheme is missing in "". Did you forget to add "http(s)://"?'],
             $response->messages,
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
                 'errorCodes' => ['connection-failed'],
@@ -325,11 +325,11 @@ final class TurnstileTest extends TestCase {
             ],
             $response->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $response->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             '',
             (string) $response,
         );
@@ -346,15 +346,15 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['test-error'],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             ['Test error.'],
             $response->messages,
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
                 'errorCodes' => ['test-error'],
@@ -367,15 +367,15 @@ final class TurnstileTest extends TestCase {
             ],
             $response->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
-                'success' => false,
                 'error-codes' => ['test-error'],
+                'success' => false,
                 'messages' => ['Test error.'],
             ],
             $response->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             '{"error-codes":["test-error"], "success": false, "messages": ["Test error."]}',
             (string) $response,
         );
@@ -397,7 +397,7 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertTrue($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             $challengeTs,
             $response->challengeTs,
         );
@@ -419,11 +419,11 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['challenge-timeout'],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             $challengeTs,
             $response->challengeTs,
         );
@@ -443,7 +443,7 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertTrue($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             'localhost.test',
             $response->hostname,
         );
@@ -463,11 +463,11 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['hostname-mismatch'],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'localhost.test',
             $response->hostname,
         );
@@ -487,7 +487,7 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertTrue($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             'login',
             $response->action,
         );
@@ -507,11 +507,11 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['action-mismatch'],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'login',
             $response->action,
         );
@@ -531,7 +531,7 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertTrue($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             'sessionid-123456789',
             $response->cdata,
         );
@@ -551,11 +551,11 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['cdata-mismatch'],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'sessionid-123456789',
             $response->cdata,
         );
@@ -581,7 +581,7 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'challenge-timeout',
                 'hostname-mismatch',
@@ -590,19 +590,19 @@ final class TurnstileTest extends TestCase {
             ],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             $challengeTs,
             $response->challengeTs,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'localhost.test',
             $response->hostname,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'login',
             $response->action,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'sessionid-123456789',
             $response->cdata,
         );
@@ -611,16 +611,16 @@ final class TurnstileTest extends TestCase {
             ResponseInterface::class,
             $response->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             (string) $response,
             (string) $response->httpResponse->getBody(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             200,
             $response->httpResponse->getStatusCode(),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
                 'errorCodes' => [
@@ -638,7 +638,7 @@ final class TurnstileTest extends TestCase {
             ],
             $response->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => true,
                 'challenge_ts' => $challengeTs,
@@ -648,7 +648,7 @@ final class TurnstileTest extends TestCase {
             ],
             $response->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             $httpResponse,
             (string) $response,
         );
@@ -672,26 +672,26 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test-error',
                 'hostname-mismatch',
             ],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'localhost.test',
             $response->hostname,
         );
-        $this->assertEquals(
+        $this->assertSame(
             $challengeTs,
             $response->challengeTs,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'login',
             $response->action,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'sessionid-123456789',
             $response->cdata,
         );
@@ -700,16 +700,16 @@ final class TurnstileTest extends TestCase {
             ResponseInterface::class,
             $response->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             (string) $response,
             (string) $response->httpResponse->getBody(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             400,
             $response->httpResponse->getStatusCode(),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
                 'errorCodes' => [
@@ -725,7 +725,7 @@ final class TurnstileTest extends TestCase {
             ],
             $response->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
                 'error-codes' => ['test-error'],
@@ -736,7 +736,7 @@ final class TurnstileTest extends TestCase {
             ],
             $response->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             $httpResponse,
             (string) $response,
         );
@@ -753,11 +753,11 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['missing-input-response'],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             '',
             (string) $response,
         );
@@ -774,11 +774,11 @@ final class TurnstileTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['invalid-input-response'],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             '',
             (string) $response,
         );
@@ -794,7 +794,7 @@ final class TurnstileTest extends TestCase {
     }
 
     private function getMockHttpClientReturn(string $response, int $statusCode = 200): Client {
-        $mock = $this->createMock(ClientInterface::class);
+        $stub = $this->createStub(ClientInterface::class);
         $psr17Factory = new Psr17Factory();
 
         $createResponse = $psr17Factory->createResponse($statusCode)
@@ -805,13 +805,13 @@ final class TurnstileTest extends TestCase {
             )
         ;
 
-        $mock->expects($this->any())
+        $stub
             ->method('sendRequest')
             ->willReturn($createResponse)
         ;
 
         return new Client(
-            $mock,
+            $stub,
             $psr17Factory,
             $psr17Factory,
         );

@@ -20,7 +20,7 @@ final class ResponseTest extends TestCase {
         );
 
         $this->assertTrue($responseDecode->success);
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $responseDecode->errorCodes,
         );
@@ -36,20 +36,20 @@ final class ResponseTest extends TestCase {
             ResponseInterface::class,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             $createResponse,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             200,
             $responseDecode->httpResponse->getStatusCode(),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             ['success' => true],
             $responseDecode->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => true,
                 'errorCodes' => [],
@@ -62,7 +62,7 @@ final class ResponseTest extends TestCase {
             ],
             $responseDecode->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             '{"success": true}',
             (string) $responseDecode,
         );
@@ -70,7 +70,7 @@ final class ResponseTest extends TestCase {
 
     public function testDecodeFull(): void {
         $challengeTs = gmdate('Y-m-d\TH:i:s.vp');
-        $httpResponse = '{"success": false, "error-codes": ["test-error"], "messages":["Test error."], "hostname": "localhost.test", "challenge_ts": "' . $challengeTs . '", "action": "login", "cdata": "sessionid-123456789", "metadata": {"ephemeral_id": "x:9f78e0ed210960d7693b167e"}}';
+        $httpResponse = '{"success": false, "error-codes": ["test-error"], "messages":["Test error."], "challenge_ts": "' . $challengeTs . '", "hostname": "localhost.test", "action": "login", "cdata": "sessionid-123456789", "metadata": {"ephemeral_id": "x:9f78e0ed210960d7693b167e"}}';
 
         $createResponse = $this->createResponse(
             $httpResponse,
@@ -82,32 +82,32 @@ final class ResponseTest extends TestCase {
         );
 
         $this->assertFalse($responseDecode->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['test-error'],
             $responseDecode->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             ['Test error.'],
             $responseDecode->messages,
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'localhost.test',
             $responseDecode->hostname,
         );
-        $this->assertEquals(
+        $this->assertSame(
             $challengeTs,
             $responseDecode->challengeTs,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'login',
             $responseDecode->action,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'sessionid-123456789',
             $responseDecode->cdata,
         );
-        $this->assertEquals(
+        $this->assertSame(
             ['ephemeral_id' => 'x:9f78e0ed210960d7693b167e'],
             $responseDecode->metadata,
         );
@@ -116,42 +116,42 @@ final class ResponseTest extends TestCase {
             ResponseInterface::class,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             $createResponse,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             400,
             $responseDecode->httpResponse->getStatusCode(),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
+                'error-codes' => ['test-error'],
                 'messages' => ['Test error.'],
+                'challenge_ts' => $challengeTs,
                 'hostname' => 'localhost.test',
                 'action' => 'login',
                 'cdata' => 'sessionid-123456789',
                 'metadata' => ['ephemeral_id' => 'x:9f78e0ed210960d7693b167e'],
-                'error-codes' => ['test-error'],
-                'challenge_ts' => $challengeTs,
             ],
             $responseDecode->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
                 'errorCodes' => ['test-error'],
-                'messages' => ['Test error.'],
                 'challengeTs' => $challengeTs,
                 'hostname' => 'localhost.test',
                 'action' => 'login',
                 'cdata' => 'sessionid-123456789',
                 'metadata' => ['ephemeral_id' => 'x:9f78e0ed210960d7693b167e'],
+                'messages' => ['Test error.'],
             ],
             $responseDecode->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             $httpResponse,
             (string) $responseDecode,
         );
@@ -160,7 +160,7 @@ final class ResponseTest extends TestCase {
     public function testToArraySuccessTrue(): void {
         $response = new Response(true, []);
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => true,
                 'errorCodes' => [],
@@ -174,7 +174,7 @@ final class ResponseTest extends TestCase {
             $response->toArray(strict: true),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $response->toArray(),
         );
@@ -186,7 +186,7 @@ final class ResponseTest extends TestCase {
             errorCodes: ['test-error'],
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
                 'errorCodes' => ['test-error'],
@@ -200,7 +200,7 @@ final class ResponseTest extends TestCase {
             $response->toArray(strict: true),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $response->toArray(),
         );
@@ -213,7 +213,7 @@ final class ResponseTest extends TestCase {
             jsonDecode: ['test' => 'jsonDecode'],
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => true,
                 'errorCodes' => [],
@@ -227,12 +227,12 @@ final class ResponseTest extends TestCase {
             $response->toArray(strict: true),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             ['test' => 'jsonDecode'],
             $response->toArray(),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             ['test' => 'jsonDecode'],
             $response->toArray(strict: false),
         );
@@ -241,7 +241,7 @@ final class ResponseTest extends TestCase {
     public function testToString(): void {
         $response = new Response(true, []);
 
-        $this->assertEquals(
+        $this->assertSame(
             '',
             (string) $response,
         );
@@ -252,7 +252,7 @@ final class ResponseTest extends TestCase {
             httpBody: 'httpResponse',
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'httpResponse',
             (string) $response,
         );
@@ -268,7 +268,7 @@ final class ResponseTest extends TestCase {
         );
 
         $this->assertFalse($responseDecode->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['unknown-error'],
             $responseDecode->errorCodes,
         );
@@ -277,20 +277,20 @@ final class ResponseTest extends TestCase {
             ResponseInterface::class,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             $createResponse,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             200,
             $responseDecode->httpResponse->getStatusCode(),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $responseDecode->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
                 'errorCodes' => ['unknown-error'],
@@ -303,7 +303,7 @@ final class ResponseTest extends TestCase {
             ],
             $responseDecode->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             'null',
             (string) $responseDecode,
         );
@@ -319,7 +319,7 @@ final class ResponseTest extends TestCase {
         );
 
         $this->assertFalse($responseDecode->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['unknown-error'],
             $responseDecode->errorCodes,
         );
@@ -328,20 +328,20 @@ final class ResponseTest extends TestCase {
             ResponseInterface::class,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             $createResponse,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             200,
             $responseDecode->httpResponse->getStatusCode(),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $responseDecode->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
                 'errorCodes' => ['unknown-error'],
@@ -354,7 +354,7 @@ final class ResponseTest extends TestCase {
             ],
             $responseDecode->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             'true',
             (string) $responseDecode,
         );
@@ -370,7 +370,7 @@ final class ResponseTest extends TestCase {
         );
 
         $this->assertFalse($responseDecode->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['unknown-error'],
             $responseDecode->errorCodes,
         );
@@ -379,20 +379,20 @@ final class ResponseTest extends TestCase {
             ResponseInterface::class,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             $createResponse,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             200,
             $responseDecode->httpResponse->getStatusCode(),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             ['test' => true],
             $responseDecode->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
                 'errorCodes' => ['unknown-error'],
@@ -405,7 +405,7 @@ final class ResponseTest extends TestCase {
             ],
             $responseDecode->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             '{"test": true}',
             (string) $responseDecode,
         );
@@ -422,11 +422,11 @@ final class ResponseTest extends TestCase {
         );
 
         $this->assertFalse($responseDecode->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['invalid-json'],
             $responseDecode->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             ['Syntax error'],
             $responseDecode->messages,
         );
@@ -435,20 +435,20 @@ final class ResponseTest extends TestCase {
             ResponseInterface::class,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             $createResponse,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             500,
             $responseDecode->httpResponse->getStatusCode(),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $responseDecode->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
                 'errorCodes' => [
@@ -463,7 +463,7 @@ final class ResponseTest extends TestCase {
             ],
             $responseDecode->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             'invalid',
             (string) $responseDecode,
         );
@@ -479,7 +479,7 @@ final class ResponseTest extends TestCase {
         );
 
         $this->assertFalse($responseDecode->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['unknown-error'],
             $responseDecode->errorCodes,
         );
@@ -488,20 +488,20 @@ final class ResponseTest extends TestCase {
             ResponseInterface::class,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             $createResponse,
             $responseDecode->httpResponse,
         );
-        $this->assertEquals(
+        $this->assertSame(
             200,
             $responseDecode->httpResponse->getStatusCode(),
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $responseDecode->toArray(),
         );
-        $this->assertEquals(
+        $this->assertSame(
             '{"success": true, "challenge_ts": 0}',
             (string) $responseDecode,
         );

@@ -18,11 +18,11 @@ final class TurnstileIntegrationTest extends TestCase {
         ;
 
         $this->assertTrue($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             ['result_with_testing_key' => true],
             $response->metadata,
         );
@@ -55,7 +55,7 @@ final class TurnstileIntegrationTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['challenge-timeout'],
             $response->errorCodes,
         );
@@ -74,7 +74,7 @@ final class TurnstileIntegrationTest extends TestCase {
         ;
 
         $this->assertTrue($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             'example.com',
             $response->hostname,
         );
@@ -92,11 +92,11 @@ final class TurnstileIntegrationTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['hostname-mismatch'],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'example.com',
             $response->hostname,
         );
@@ -111,15 +111,15 @@ final class TurnstileIntegrationTest extends TestCase {
         ;
 
         $this->assertFalse($response->success);
-        $this->assertEquals(
+        $this->assertSame(
             ['invalid-input-response'],
             $response->errorCodes,
         );
-        $this->assertEquals(
+        $this->assertSame(
             ['result_with_testing_key' => true],
             $response->metadata,
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'success' => false,
                 'errorCodes' => ['invalid-input-response'],
@@ -134,10 +134,10 @@ final class TurnstileIntegrationTest extends TestCase {
             ],
             $response->toArray(strict: true),
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
-                'success' => false,
                 'error-codes' => ['invalid-input-response'],
+                'success' => false,
                 'messages' => [],
                 'metadata' => [
                     'result_with_testing_key' => true,
@@ -145,7 +145,7 @@ final class TurnstileIntegrationTest extends TestCase {
             ],
             $response->toArray(strict: false),
         );
-        $this->assertEquals(
+        $this->assertSame(
             '{"error-codes":["invalid-input-response"],"success":false,"messages":[],"metadata":{"result_with_testing_key":true}}',
             (string) $response,
         );

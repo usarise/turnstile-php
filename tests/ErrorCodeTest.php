@@ -9,66 +9,66 @@ use Turnstile\Error\{Codes, Messages};
 
 final class ErrorCodeTest extends TestCase {
     public function testCodes(): void {
-        $this->assertEquals(
+        $this->assertSame(
             'missing-input-secret',
             Codes::MISSING_INPUT_SECRET,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'invalid-input-secret',
             Codes::INVALID_INPUT_SECRET,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'missing-input-response',
             Codes::MISSING_INPUT_RESPONSE,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'invalid-input-response',
             Codes::INVALID_INPUT_RESPONSE,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'bad-request',
             Codes::BAD_REQUEST,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'timeout-or-duplicate',
             Codes::TIMEOUT_OR_DUPLICATE,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'internal-error',
             Codes::INTERNAL_ERROR,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'challenge-timeout',
             Codes::CHALLENGE_TIMEOUT,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'hostname-mismatch',
             Codes::HOSTNAME_MISMATCH,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'action-mismatch',
             Codes::ACTION_MISMATCH,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'cdata-mismatch',
             Codes::CDATA_MISMATCH,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'connection-failed',
             Codes::CONNECTION_FAILED,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'invalid-json',
             Codes::INVALID_JSON,
         );
-        $this->assertEquals(
+        $this->assertSame(
             'unknown-error',
             Codes::UNKNOWN_ERROR,
         );
     }
 
     public function testMessages(): void {
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'missing-input-secret' => 'Secret parameter not provided',
                 'invalid-input-secret' => 'Secret key is invalid or expired',
@@ -87,7 +87,7 @@ final class ErrorCodeTest extends TestCase {
             ],
             Messages::DESCRIPTION,
         );
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'missing-input-secret' => 'Ensure secret key is included',
                 'invalid-input-secret' => 'Check your secret key in the Cloudflare dashboard',

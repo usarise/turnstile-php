@@ -14,7 +14,7 @@ final class RequestParametersTest extends TestCase {
             'response',
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'secret' => 'secret',
                 'response' => 'response',
@@ -31,7 +31,7 @@ final class RequestParametersTest extends TestCase {
             'idempotencyKey',
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'secret' => 'secret',
                 'response' => 'response',
@@ -48,7 +48,7 @@ final class RequestParametersTest extends TestCase {
             'response',
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'secret=secret&response=response',
             (string) $requestParams,
         );
@@ -62,7 +62,7 @@ final class RequestParametersTest extends TestCase {
             'idempotencyKey',
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'secret=secret&response=response&remoteip=remoteip&idempotency_key=idempotencyKey',
             (string) $requestParams,
         );
