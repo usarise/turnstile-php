@@ -412,6 +412,12 @@ final class ResponseTest extends TestCase {
     }
 
     public function testDecodeInvalidJson(): void {
+        $messages = ['Syntax error'];
+
+        if (\PHP_VERSION_ID >= 80600) {
+            $messages = ['Syntax error near location 1:1'];
+        }
+
         $createResponse = $this->createResponse(
             'invalid',
             500,
@@ -426,8 +432,9 @@ final class ResponseTest extends TestCase {
             ['invalid-json'],
             $responseDecode->errorCodes,
         );
+
         $this->assertSame(
-            ['Syntax error'],
+            $messages,
             $responseDecode->messages,
         );
 
@@ -459,7 +466,7 @@ final class ResponseTest extends TestCase {
                 'action' => null,
                 'cdata' => null,
                 'metadata' => null,
-                'messages' => ['Syntax error'],
+                'messages' => $messages,
             ],
             $responseDecode->toArray(strict: true),
         );
