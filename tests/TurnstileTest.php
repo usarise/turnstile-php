@@ -561,6 +561,28 @@ final class TurnstileTest extends TestCase {
         );
     }
 
+    public function testDummySecretKeySkipsHostnameActionAndCdataValidation(): void {
+        $response = (new Turnstile(
+            client: $this->getMockHttpClientReturn(
+                '{"success": true, "hostname": "localhost", "action": "test", "cdata": "test_data"}',
+            ),
+            secretKey: '1x0000000000000000000000000000000AA',
+        ))
+        ->verify(
+            token: 'token',
+            expectedHostname: 'localhost.test',
+            expectedAction: 'login',
+            expectedCdata: 'sessionid-123456789',
+        )
+        ;
+
+        $this->assertTrue($response->success);
+        $this->assertSame([], $response->errorCodes);
+        $this->assertSame('localhost', $response->hostname);
+        $this->assertSame('test', $response->action);
+        $this->assertSame('test_data', $response->cdata);
+    }
+
     public function testBadValidation(): void {
         $challengeTs = $this->getChallengeTs('-150 sec');
         $httpResponse = '{"success": true, "challenge_ts": "' . $challengeTs . '", "hostname": "localhost.test", "action": "login", "cdata": "sessionid-123456789"}';

@@ -14,6 +14,7 @@ use Turnstile\Exception\InvalidArgumentException;
  */
 final class Turnstile implements TurnstileInterface {
     private readonly Client $client;
+    private readonly bool $isDummy;
 
     public function __construct(
         Client|PsrHttpClientInterface $client,
@@ -21,6 +22,15 @@ final class Turnstile implements TurnstileInterface {
         private readonly ?string $idempotencyKey = null,
     ) {
         $this->client = ($client instanceof PsrHttpClientInterface) ? new Client($client) : $client;
+        $this->isDummy = \in_array(
+            $secretKey,
+            [
+                '1x0000000000000000000000000000000AA',
+                '2x0000000000000000000000000000000AA',
+                '3x0000000000000000000000000000000AA',
+            ],
+            true,
+        );
 
         if ($secretKey === '') {
             throw new InvalidArgumentException('The secret key cannot be empty.');
@@ -93,15 +103,15 @@ final class Turnstile implements TurnstileInterface {
             }
         }
 
-        if ($expectedHostname !== null && $expectedHostname !== $response->hostname) {
+        if (!$this->isDummy && $expectedHostname !== null && $expectedHostname !== $response->hostname) {
             $errorCodes[] = ErrorCode::HOSTNAME_MISMATCH;
         }
 
-        if ($expectedAction !== null && $expectedAction !== $response->action) {
+        if (!$this->isDummy && $expectedAction !== null && $expectedAction !== $response->action) {
             $errorCodes[] = ErrorCode::ACTION_MISMATCH;
         }
 
-        if ($expectedCdata !== null && $expectedCdata !== $response->cdata) {
+        if (!$this->isDummy && $expectedCdata !== null && $expectedCdata !== $response->cdata) {
             $errorCodes[] = ErrorCode::CDATA_MISMATCH;
         }
 
